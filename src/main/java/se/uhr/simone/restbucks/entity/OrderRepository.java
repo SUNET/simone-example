@@ -7,8 +7,8 @@ import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import se.uhr.nya.integration.sim.extension.api.entity.DatabaseAdmin;
-import se.uhr.nya.integration.sim.extension.api.feed.UniqueIdentifier;
+import se.uhr.simone.extension.api.entity.DatabaseAdmin;
+import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.boundary.OrderRepresentation;
 
 @ApplicationScoped

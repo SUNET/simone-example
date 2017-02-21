@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import se.uhr.nya.integration.sim.extension.api.feed.UniqueIdentifier;
+import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.control.OrderController;
 
 @Api(tags = {"example"})

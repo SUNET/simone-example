@@ -6,10 +6,10 @@ import java.io.Reader;
 
 import javax.inject.Inject;
 
-import se.uhr.nya.integration.sim.extension.api.feed.UniqueIdentifier;
-import se.uhr.nya.integration.sim.extension.api.fileloader.ExtensionContext;
-import se.uhr.nya.integration.sim.extension.api.fileloader.FileLoader;
-import se.uhr.nya.integration.sim.extension.api.fileloader.FileLoaderDescriptor;
+import se.uhr.simone.extension.api.feed.UniqueIdentifier;
+import se.uhr.simone.extension.api.fileloader.ExtensionContext;
+import se.uhr.simone.extension.api.fileloader.FileLoader;
+import se.uhr.simone.extension.api.fileloader.FileLoaderDescriptor;
 import se.uhr.simone.restbucks.boundary.OrderRepresentation;
 
 public class OrderFileLoaderDescriptor implements FileLoaderDescriptor {

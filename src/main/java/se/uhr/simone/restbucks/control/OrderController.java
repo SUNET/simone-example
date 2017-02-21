@@ -9,13 +9,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import se.uhr.nya.integration.sim.extension.api.feed.AtomCategory;
-import se.uhr.nya.integration.sim.extension.api.feed.AtomCategory.Label;
-import se.uhr.nya.integration.sim.extension.api.feed.AtomCategory.Term;
-import se.uhr.nya.integration.sim.extension.api.feed.AtomEntry;
-import se.uhr.nya.integration.sim.extension.api.feed.AtomEntry.AtomEntryId;
-import se.uhr.nya.integration.sim.extension.api.feed.FeedPublisher;
-import se.uhr.nya.integration.sim.extension.api.feed.UniqueIdentifier;
+import se.uhr.simone.extension.api.feed.AtomCategory;
+import se.uhr.simone.extension.api.feed.AtomEntry;
+import se.uhr.simone.extension.api.feed.FeedPublisher;
+import se.uhr.simone.extension.api.feed.UniqueIdentifier;
+import se.uhr.simone.extension.api.feed.AtomCategory.Label;
+import se.uhr.simone.extension.api.feed.AtomCategory.Term;
+import se.uhr.simone.extension.api.feed.AtomEntry.AtomEntryId;
 import se.uhr.simone.restbucks.boundary.OrderRepresentation;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
