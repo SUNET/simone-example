@@ -48,9 +48,41 @@
 	</dependencies>
 
 	<build>
-		<!-- Swagger UI -->
-
 		<plugins>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<imageName>simone</imageName>
+					<useConfigFile>true</useConfigFile>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					<dockerDirectory>${basedir}/docker</dockerDirectory>
+					<forceTags>true</forceTags>
+					<images>
+						<image>
+							<build>
+								<args>
+									<RESOURCE_NAME>${project.build.finalName}.${project.packaging}</RESOURCE_NAME>
+								</args>
+							</build>
+						</image>
+					</images>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.${project.packaging}</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+
+			<!-- Swagger UI -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
