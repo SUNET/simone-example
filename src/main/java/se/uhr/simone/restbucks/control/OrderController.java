@@ -17,7 +17,7 @@ import se.uhr.nya.integration.sim.extension.api.feed.AtomEntry.AtomEntryId;
 import se.uhr.nya.integration.sim.extension.api.feed.FeedPublisher;
 import se.uhr.nya.integration.sim.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.boundary.OrderRepresentation;
-import se.uhr.simone.restbucks.enity.OrderRepository;
+import se.uhr.simone.restbucks.entity.OrderRepository;
 
 public class OrderController {
 
@@ -39,10 +39,14 @@ public class OrderController {
 		return order;
 	}
 
-	public OrderRepresentation read(UniqueIdentifier id) {
-		return orderRepository.read(id);
+	public OrderRepresentation get(UniqueIdentifier id) {
+		return orderRepository.get(id);
 	}
 
+	public java.util.List<OrderRepresentation> getAll() {
+		return orderRepository.getAll();
+	}
+	
 	private String convertToXml(OrderRepresentation order) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(order.getClass());

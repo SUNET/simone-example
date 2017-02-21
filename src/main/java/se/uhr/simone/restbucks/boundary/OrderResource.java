@@ -1,5 +1,7 @@
 package se.uhr.simone.restbucks.boundary;
 
+import java.util.List;
+
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -30,13 +32,21 @@ public class OrderResource {
 	}
 	
 
+	@ApiOperation(value = "Fetch all orders", response = OrderRepresentation.class, responseContainer = "List")
+	@GET
+	public Response readAll() {
+		List<OrderRepresentation> orders = controller.getAll();
+		
+		return Response.ok(orders).build();
+	}
+	
 	@ApiOperation(value = "Fetch order", response = OrderRepresentation.class)
 	@GET
 	@Path("/{orderId}")
 	public Response read(@PathParam("orderId") String orderId) {
 		UniqueIdentifier id = UniqueIdentifier.of(orderId);
 		
-		OrderRepresentation order = controller.read(id);
+		OrderRepresentation order = controller.get(id);
 		
 		return order != null ? Response.ok(order).build() : Response.status(Status.NOT_FOUND).build();
 	}

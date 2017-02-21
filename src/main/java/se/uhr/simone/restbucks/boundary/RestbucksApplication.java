@@ -12,8 +12,8 @@ public class RestbucksApplication extends Application {
 		BeanConfig beanConfig = new BeanConfig();
 		beanConfig.setSchemes(new String[] { "http" });
 		beanConfig.setHost("localhost:8080");
-		beanConfig.setBasePath("/sim");
-		beanConfig.setResourcePackage("se.uhr.simone.restbucks.boundary,se.uhr.nya.integration.sim.server");
+		beanConfig.setBasePath("/sim/api");
+		beanConfig.setResourcePackage("se.uhr.simone,se.uhr.nya.integration.sim.server");
 		beanConfig.setScan(true);
 	}
 }
