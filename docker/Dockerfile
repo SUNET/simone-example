@@ -1,4 +1,4 @@
-FROM simone-wildfly
+FROM attiand/simone
 
 ARG RESOURCE_NAME
 
