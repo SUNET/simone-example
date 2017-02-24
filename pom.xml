@@ -72,7 +72,6 @@
 					</imageTags>
 					<dockerDirectory>${basedir}/docker</dockerDirectory>
 					<forceTags>true</forceTags>
-					<useGitCommitId>true</useGitCommitId>
 					<images>
 						<image>
 							<build>

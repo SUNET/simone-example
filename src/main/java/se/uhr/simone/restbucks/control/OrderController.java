@@ -9,6 +9,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import se.uhr.simone.extension.api.feed.AtomCategory;
 import se.uhr.simone.extension.api.feed.AtomEntry;
 import se.uhr.simone.extension.api.feed.FeedPublisher;
@@ -21,6 +24,8 @@ import se.uhr.simone.restbucks.entity.OrderRepository;
 
 public class OrderController {
 
+	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
+	
 	@Inject
 	private OrderRepository orderRepository;
 
@@ -36,6 +41,8 @@ public class OrderController {
 
 		publishFeedEntry(orderId, convertToXml(order));
 
+		LOG.info("Create order id: {}", orderId.toString());
+		
 		return order;
 	}
 
