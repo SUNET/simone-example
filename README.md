@@ -2,8 +2,17 @@
 
 ## Description
 
+Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example builds a war including the SimOne core jar. The war is deployed in a Jboss Wildfly server that runs in a Docker container. The Docker image is based on the SimOne image.
+
+
+[OrderResource.java](blob/master/src/main/java/se/uhr/simone/restbucks/boundary/OrderResource.java): Implements the REST API to simulate. In the example it is possible to create a Coffee order.
+
+[OrderController.java](blob/master/src/main/java/se/uhr/simone/restbucks/control/OrderController.java): Create the example order and submits a event that is published on the FEED.
+
+[OrderRepository.java](blob/master/src/main/java/se/uhr/simone/restbucks/entity/OrderRepository.java): Stores the order for later retrieval (Currently only in-memory)
+
 ## Build
-Builds a Wildfly Docker container.
+Builds the war and deploys it in a Jboss Wildfly Docker container.
 
 ```bash
 mvn package docker:build 
@@ -56,7 +65,7 @@ curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost
 
 See <http://localhost:8080/sim/doc/#/rest_admin> for more information about manipulating the feed.
 
-## Batch load Orders
+## Batch load
 
 There are to options to load SimOne with a batch of orders.
 
