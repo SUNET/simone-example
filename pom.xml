@@ -11,7 +11,7 @@
 	<url>https://github.com/SUNET/simone-example</url>
 
 	<scm>
-		<url>https://github.com/SUNET/simone</url>
+		<url>https://github.com/SUNET/simone-example</url>
 	</scm>
 
 	<organization>
@@ -19,6 +19,15 @@
 		<url>http://www.sunet.se/</url>
 	</organization>
 
+	<repositories>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
