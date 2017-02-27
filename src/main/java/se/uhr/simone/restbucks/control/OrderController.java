@@ -1,10 +1,12 @@
 package se.uhr.simone.restbucks.control;
 
 import java.io.StringWriter;
+import java.net.URI;
 import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -12,6 +14,7 @@ import javax.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.uhr.simone.extension.api.Constants;
 import se.uhr.simone.extension.api.feed.AtomCategory;
 import se.uhr.simone.extension.api.feed.AtomEntry;
 import se.uhr.simone.extension.api.feed.FeedPublisher;
@@ -19,6 +22,7 @@ import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.extension.api.feed.AtomCategory.Label;
 import se.uhr.simone.extension.api.feed.AtomCategory.Term;
 import se.uhr.simone.extension.api.feed.AtomEntry.AtomEntryId;
+import se.uhr.simone.restbucks.boundary.OrderEventRepresentation;
 import se.uhr.simone.restbucks.boundary.OrderRepresentation;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
@@ -39,7 +43,11 @@ public class OrderController {
 
 		orderRepository.create(orderId, order);
 
-		publishFeedEntry(orderId, convertToXml(order));
+		URI uri = UriBuilder.fromUri(Constants.REST_URI).segment("order").segment(orderId.toString()).build();
+		
+		OrderEventRepresentation event = OrderEventRepresentation.of(orderId, uri);
+		
+		publishFeedEntry(orderId, convertToXml(event));
 
 		LOG.info("Create order id: {}", orderId.toString());
 		
@@ -54,12 +62,12 @@ public class OrderController {
 		return orderRepository.getAll();
 	}
 	
-	private String convertToXml(OrderRepresentation order) {
+	private String convertToXml(OrderEventRepresentation event) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(order.getClass());
+			JAXBContext context = JAXBContext.newInstance(event.getClass());
 			Marshaller m = context.createMarshaller();
 			StringWriter outstr = new StringWriter();
-			m.marshal(order, outstr);
+			m.marshal(event, outstr);
 			return outstr.toString();
 		} catch (JAXBException e) {
 			throw new OrderException("Can't create event", e);

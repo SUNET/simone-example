@@ -96,3 +96,7 @@ If you change the port or SimOne is installed behind a firewall you must change 
 ```bash
 -e "SIMONE_BASE_URI=http://my.uri.se"
 ```
+
+## Todo
+
+* Create Maven archetype that creates a project from this example 
