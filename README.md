@@ -9,7 +9,7 @@ Simple example of how to build a simulator based on [SimOne](https://github.com/
 
 [OrderController.java](src/main/java/se/uhr/simone/restbucks/control/OrderController.java): Create the example order and submits a event that is published on the FEED.
 
-[OrderRepository.java](src/main/java/se/uhr/simone/restbucks/entity/OrderRepository.java): Stores the order for later retrieval (Currently only in-memory)
+[OrderRepository.java](src/main/java/se/uhr/simone/restbucks/entity/OrderRepository.java): Stores the order for later retrieval
 
 ## Build
 Builds the war and deploys it in a Jboss Wildfly Docker container.
@@ -85,6 +85,10 @@ The dropin directory must be mounted when when the cointainer is started, first 
 cp cp etc/orders.txt /tmp/mydropindir/
 ```
 ## Tips
+
+### Re-use loaded database
+
+You may mount the database directory `/var/simone/db` if you save the simulator data between re-starts. First create a directory on you host `/tmp/mydbdir` then add `-v /tmp/mydbdir:/var/simone/db` to the docker run command.
 
 ### Base URI
 

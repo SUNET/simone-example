@@ -1,5 +1,6 @@
 package se.uhr.simone.restbucks.boundary;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,7 +10,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "order")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OrderRepresentation {
+public class OrderRepresentation implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private String id;
 	
