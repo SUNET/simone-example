@@ -5,6 +5,8 @@ import java.net.URI;
 import java.time.LocalDateTime;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBContext;
@@ -36,12 +38,13 @@ public class OrderController {
 	@Inject
 	private FeedPublisher feedPublisher;
 
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public OrderRepresentation create(String description) {
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
 		OrderRepresentation order = OrderRepresentation.of(orderId.toString(), description, LocalDateTime.now());
 
-		orderRepository.create(orderId, order);
+		orderRepository.put(orderId, order);
 
 		URI uri = UriBuilder.fromUri(Constants.REST_URI).segment("order").segment(orderId.toString()).build();
 		

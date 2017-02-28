@@ -13,4 +13,11 @@ RUN chmod u+x /opt/jboss/entry.sh
 RUN dos2unix /opt/jboss/entry.sh
 USER jboss
 
+COPY jboss-setup.sh /tmp
+COPY commands.cli /tmp
+
+WORKDIR /tmp
+
+RUN /bin/bash /tmp/jboss-setup.sh
+
 CMD ["/opt/jboss/entry.sh"]

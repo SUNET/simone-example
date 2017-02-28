@@ -1,0 +1,17 @@
+# Mark the commands below to be run as a batch
+batch
+
+xa-data-source add \
+   --name=RestbucksDS \
+   --driver-name=derby-embedded \
+   --jndi-name=java:/jdbc/Restbucks \
+   --enabled=true \
+   --user-name=sa \
+   --password=admin \
+   --same-rm-override=false
+
+/subsystem=datasources/xa-data-source=RestbucksDS/xa-datasource-properties=DatabaseName:add(value=feed)
+/subsystem=datasources/xa-data-source=RestbucksDS/xa-datasource-properties=CreateDatabase:add(value=create)
+
+# Execute the batch
+run-batch

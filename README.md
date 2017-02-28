@@ -82,7 +82,7 @@ curl -X POST --header 'Content-Type: multipart/form-data' -F name=orders.txt -F 
 The dropin directory must be mounted when when the cointainer is started, first create a directory on you host `/tmp/mydropindir` then add `-v /tmp/mydropindir:/var/simone/dropin` to the docker run command.
 
 ```bash
-cp cp etc/orders.txt /tmp/mydropindir/
+cp etc/orders.txt /tmp/mydropindir/
 ```
 ## Tips
 
@@ -96,6 +96,12 @@ If you change the port or SimOne is installed behind a firewall you must change 
 ```bash
 -e "SIMONE_BASE_URI=http://my.uri.se"
 ```
+
+## Prerequisites
+
+* JDK 1.8
+* Maven 3
+* Docker 
 
 ## Todo
 
