@@ -99,6 +99,4 @@ If you change the port or SimOne is installed behind a firewall you must change 
 
 ## Todo
 
-* Currently uses SimOne snapshot version. 
-
 * Create Maven archetype that creates a new project from this example 

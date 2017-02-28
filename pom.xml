@@ -83,7 +83,6 @@
 				<version>0.4.13</version>
 				<configuration>
 					<imageName>simone-example</imageName>
-					<useConfigFile>true</useConfigFile>
 					<imageTags>
 						<imageTag>${project.version}</imageTag>
 						<imageTag>latest</imageTag>
