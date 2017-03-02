@@ -1,7 +1,5 @@
 # SimOne-example
 
-## Description
-
 Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example builds a war including the SimOne core jar. The war is deployed in a Jboss Wildfly server that runs in a Docker container. The Docker image is based on the SimOne image.
 
 
@@ -105,4 +103,4 @@ If you change the port or SimOne is installed behind a firewall you must change 
 
 ## Todo
 
-* Create Maven archetype that creates a new project from this example 
+* Create a Maven archetype that creates a new project from this example 
