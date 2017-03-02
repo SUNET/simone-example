@@ -1,4 +1,4 @@
-FROM attiand/simone
+FROM attiand/simone:1.0.0
 
 ARG RESOURCE_NAME
 
