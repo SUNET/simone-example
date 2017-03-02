@@ -9,6 +9,13 @@ Simple example of how to build a simulator based on [SimOne](https://github.com/
 
 [OrderRepository.java](src/main/java/se/uhr/simone/restbucks/entity/OrderRepository.java): Stores the order for later retrieval.
 
+## Clone
+
+```bash
+git clone https://github.com/SUNET/simone-example.git
+cd simone-example
+```
+
 ## Build
 Builds the war and deploys it in a Jboss Wildfly Docker container.
 
@@ -37,15 +44,23 @@ curl -X POST -d "Coffee" 'http://localhost:8080/sim/api/order'
 curl 'http://localhost:8080/sim/api/order' 
 ```
 
-### Read Feed 
+### Read the Feed 
 
 ```bash
 curl 'http://localhost:8080/sim/api/feed/recent'
 ```
 
+### Empty the database
+
+```bash
+curl -X DELETE 'http://localhost:8080/sim/api/admin/database'
+```
+
+See <http://localhost:8080/sim/doc/#/database_admin> for more information about manipulating the database.
+
 ### Send custom Feed event
 
-Sends a custom Feed event for test purposes
+Sends a custom Feed event (possible erroneous) for test purposes
 
 ```bash
 curl -X POST --header 'Content-Type: application/json' -d '{"contentType": "application/xml","content": "<message>hello</message>"}' 'http://localhost:8080/sim/api/admin/feed/event'
@@ -61,13 +76,13 @@ For every REST request respond with status code 201.
 curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost:8080/sim/api/admin/rs/response/code/global'
 ```
 
-See <http://localhost:8080/sim/doc/#/rest_admin> for more information about manipulating the feed.
+See <http://localhost:8080/sim/doc/#/rest_admin> for more information about manipulating the REST-API.
 
 ## Batch load
 
-There are to options to load SimOne with a batch of orders.
+There are two options to load SimOne with a batch of orders.
 
-### REST
+### Use the admin REST API
 
 Load SimOne with information from `etc/orders.txt`
 
@@ -97,6 +112,7 @@ If you change the port or SimOne is installed behind a firewall you must change 
 
 ## Prerequisites
 
+* Git
 * JDK 1.8
 * Maven 3
 * Docker 
