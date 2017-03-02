@@ -97,6 +97,11 @@ The dropin directory must be mounted when when the cointainer is started, first 
 ```bash
 cp etc/orders.txt /tmp/mydropindir/
 ```
+
+## Inspect the database
+
+Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver and the URL: `jdbc:derby://localhost:1527/restbucks`. See <https://github.com/SUNET/simone#inspect-the-feed-database> for more information.
+
 ## Tips
 
 ### Re-use loaded database

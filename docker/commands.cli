@@ -10,7 +10,7 @@ xa-data-source add \
    --password=admin \
    --same-rm-override=false
 
-/subsystem=datasources/xa-data-source=RestbucksDS/xa-datasource-properties=DatabaseName:add(value=feed)
+/subsystem=datasources/xa-data-source=RestbucksDS/xa-datasource-properties=DatabaseName:add(value=restbucks)
 /subsystem=datasources/xa-data-source=RestbucksDS/xa-datasource-properties=CreateDatabase:add(value=create)
 
 # Execute the batch
