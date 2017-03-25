@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -38,7 +39,7 @@ public class DocumentStore<T> implements DatabaseAdmin {
 	public void postConstruct() {
 		if (!isTableCreated()) {
 			jdbcTemplate.execute("CREATE TABLE " + name + " (ID char(16) for bit data NOT NULL, VALUE XML)");
-			jdbcTemplate.execute("ALTER TABLE " + name + " ADD PRIMARY KEY (ID)");			
+			jdbcTemplate.execute("ALTER TABLE " + name + " ADD PRIMARY KEY (ID)");
 		}
 	}
 
@@ -77,29 +78,27 @@ public class DocumentStore<T> implements DatabaseAdmin {
 		return count != 0;
 	}
 
-	private String convertToXml(T event) {
+	String convertToXml(T entity) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(event.getClass());
+			JAXBContext context = JAXBContext.newInstance(type);
 			Marshaller m = context.createMarshaller();
 			StringWriter outstr = new StringWriter();
-			m.marshal(event, outstr);
+			m.marshal(entity, outstr);
 			return outstr.toString();
 		} catch (JAXBException e) {
-			throw new OrderException("Can't create XML", e);
+			throw new OrderException("Can't create XML from entity", e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private T convertFromXml(String xml) {
-
+	T convertFromXml(String xml) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(type);
 
 			Unmarshaller jaxbUnmarshaller = context.createUnmarshaller();
 
-			return (T) jaxbUnmarshaller.unmarshal(new StringReader(xml));
+			return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(xml)), type).getValue();
 		} catch (JAXBException e) {
-			throw new OrderException("Can't create object from XML", e);
+			throw new OrderException("Can't create entity from XML", e);
 		}
 	}
 

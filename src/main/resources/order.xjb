@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<jxb:bindings version="2.1" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jxb:extensionBindingPrefixes="xjc">
+
+	<jxb:globalBindings>
+		<jxb:javaType name="java.time.ZonedDateTime" xmlType="xsd:dateTime"
+			parseMethod="se.uhr.simone.restbucks.boundary.ZonedDateTimeAdaptor.unmarshal"
+			printMethod="se.uhr.simone.restbucks.boundary.ZonedDateTimeAdaptor.marshal" />
+	</jxb:globalBindings>
+</jxb:bindings>

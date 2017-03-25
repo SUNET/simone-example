@@ -2,7 +2,7 @@ package se.uhr.simone.restbucks.control;
 
 import java.io.StringWriter;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -16,6 +16,9 @@ import javax.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.uhr.simone.example.api.Link;
+import se.uhr.simone.example.api.OrderEventRepresentation;
+import se.uhr.simone.example.api.OrderRepresentation;
 import se.uhr.simone.extension.api.Constants;
 import se.uhr.simone.extension.api.feed.AtomCategory;
 import se.uhr.simone.extension.api.feed.AtomEntry;
@@ -24,14 +27,12 @@ import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.extension.api.feed.AtomCategory.Label;
 import se.uhr.simone.extension.api.feed.AtomCategory.Term;
 import se.uhr.simone.extension.api.feed.AtomEntry.AtomEntryId;
-import se.uhr.simone.restbucks.boundary.OrderEventRepresentation;
-import se.uhr.simone.restbucks.boundary.OrderRepresentation;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
 public class OrderController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
-	
+
 	@Inject
 	private OrderRepository orderRepository;
 
@@ -42,18 +43,22 @@ public class OrderController {
 	public OrderRepresentation create(String description) {
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
-		OrderRepresentation order = OrderRepresentation.of(orderId.toString(), description, LocalDateTime.now());
+		OrderRepresentation order = OrderRepresentation.builder().withId(orderId.toString())
+				.withDescription(description).withTime(ZonedDateTime.now()).build();
 
 		orderRepository.put(orderId, order);
 
 		URI uri = UriBuilder.fromUri(Constants.REST_URI).segment("order").segment(orderId.toString()).build();
-		
-		OrderEventRepresentation event = OrderEventRepresentation.of(orderId, uri);
-		
+
+		Link link = Link.builder().withRel("order").withHref(uri.toString()).withType(MediaType.APPLICATION_JSON)
+				.build();
+		OrderEventRepresentation event = OrderEventRepresentation.builder().withId(orderId.toString()).withLink(link)
+				.build();
+
 		publishFeedEntry(orderId, convertToXml(event));
 
 		LOG.info("Create order id: {}", orderId.toString());
-		
+
 		return order;
 	}
 
@@ -64,7 +69,7 @@ public class OrderController {
 	public java.util.List<OrderRepresentation> getAll() {
 		return orderRepository.getAll();
 	}
-	
+
 	private String convertToXml(OrderEventRepresentation event) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(event.getClass());

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:ex="http://api.example.simone.uhr.se" targetNamespace="http://api.example.simone.uhr.se"
+	elementFormDefault="qualified">
+
+	<xsd:element name="OrderRepresentation">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="id" type="xsd:string" />
+				<xsd:element name="description" type="xsd:string" />
+				<xsd:element name="time" type="xsd:dateTime" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="OrderEventRepresentation">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="id" type="xsd:string" />
+				<xsd:element name="link" type="ex:Link" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="Link">
+		<xsd:sequence>
+			<xsd:element name="rel" type="xsd:string" />
+			<xsd:element name="href" type="xsd:anyURI" />
+			<xsd:element name="type" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>  

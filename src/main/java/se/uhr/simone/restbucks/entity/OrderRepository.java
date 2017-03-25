@@ -3,7 +3,7 @@ package se.uhr.simone.restbucks.entity;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import se.uhr.simone.restbucks.boundary.OrderRepresentation;
+import se.uhr.simone.example.api.OrderRepresentation;
 
 @ApplicationScoped
 public class OrderRepository extends DocumentStore<OrderRepresentation> {
