@@ -5,8 +5,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 import org.junit.Test;
 
@@ -16,19 +14,18 @@ public class OrderRepositoryTest {
 
 	private OrderRepository cut = new OrderRepository();
 
-	private static final ZonedDateTime EPOC = ZonedDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneId.systemDefault());
+	private static final Instant EPOC = Instant.ofEpochSecond(0);
 
-	private static final OrderRepresentation ORDER
-	= OrderRepresentation.builder().withId("myid").withDescription("desc")
-			.withTime(EPOC).build();
+	private static final OrderRepresentation ORDER = OrderRepresentation.builder().withId("myid")
+			.withDescription("desc").withTime(EPOC).build();
 
 	@Test
 	public void shouldConvertToXml() throws Exception {
 		String xml = cut.convertToXml(ORDER);
 		assertThat(xml, containsString("myid"));
-		assertThat(xml, containsString("1970-01-01T01:00:00+01:00"));
+		assertThat(xml, containsString("1970-01-01T00:00:00Z"));
 	}
-	
+
 	@Test
 	public void shouldConvertFromXml() throws Exception {
 		String xml = cut.convertToXml(ORDER);

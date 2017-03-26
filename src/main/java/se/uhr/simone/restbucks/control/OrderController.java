@@ -2,7 +2,7 @@ package se.uhr.simone.restbucks.control;
 
 import java.io.StringWriter;
 import java.net.URI;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -44,7 +44,7 @@ public class OrderController {
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
 		OrderRepresentation order = OrderRepresentation.builder().withId(orderId.toString())
-				.withDescription(description).withTime(ZonedDateTime.now()).build();
+				.withDescription(description).withTime(Instant.now()).build();
 
 		orderRepository.put(orderId, order);
 

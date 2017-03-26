@@ -5,8 +5,8 @@
 	jxb:extensionBindingPrefixes="xjc">
 
 	<jxb:globalBindings>
-		<jxb:javaType name="java.time.ZonedDateTime" xmlType="xsd:dateTime"
-			parseMethod="se.uhr.simone.restbucks.boundary.ZonedDateTimeAdaptor.unmarshal"
-			printMethod="se.uhr.simone.restbucks.boundary.ZonedDateTimeAdaptor.marshal" />
+		<jxb:javaType name="java.time.Instant" xmlType="xsd:dateTime"
+			parseMethod="se.uhr.simone.restbucks.boundary.InstantAdaptor.unmarshal"
+			printMethod="se.uhr.simone.restbucks.boundary.InstantAdaptor.marshal" />
 	</jxb:globalBindings>
 </jxb:bindings>
