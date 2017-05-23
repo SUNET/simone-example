@@ -30,6 +30,8 @@ Run the example on port 8080
 docker run -it --rm -p 8080:8080 simone-example
 ```
 
+If running this on windows remove the -t option
+
 ## Try it out
 
 ### Add Order
