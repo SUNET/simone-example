@@ -1,261 +1,268 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>se.uhr.simone</groupId>
-	<artifactId>example</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
-	<packaging>war</packaging>
+    <groupId>se.uhr.simone</groupId>
+    <artifactId>example</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
-	<name>restbucks</name>
-	<url>https://github.com/SUNET/simone-example</url>
+    <name>restbucks</name>
+    <url>https://github.com/SUNET/simone-example</url>
 
-	<scm>
-		<connection>scm:git:git@github.com:SUNET/simone-example.git</connection>
-		<url>https://github.com/SUNET/simone-example</url>
-		<developerConnection>scm:git:git@github.com:SUNET/simone-example.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:git@github.com:SUNET/simone-example.git</connection>
+        <url>https://github.com/SUNET/simone-example</url>
+        <developerConnection>scm:git:git@github.com:SUNET/simone-example.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
-	<organization>
-		<name>SUNET</name>
-		<url>http://www.sunet.se/</url>
-	</organization>
+    <organization>
+        <name>SUNET</name>
+        <url>http://www.sunet.se/</url>
+    </organization>
 
-	<repositories>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<failOnMissingWebXml>false</failOnMissingWebXml>
-		<m2e.cdi.activation>true</m2e.cdi.activation>
-		<version.swagger-ui>2.2.5</version.swagger-ui>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <m2e.cdi.activation>true</m2e.cdi.activation>
+        <docker.tag>latest</docker.tag>
+        <version.wildfly.swarm>2017.11.0</version.wildfly.swarm>
+        <version.org.slf4j>1.7.22</version.org.slf4j>
+        <version.derby>10.11.1.1</version.derby>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>se.uhr.simone</groupId>
-			<artifactId>simone</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>bom-all</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependencies>
+        <!-- Java EE 7 -->
 
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-jaxrs</artifactId>
-			<version>1.5.12</version>
-		</dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.org.slf4j}</version>
+        </dependency>
+
+        <!-- SIMONE -->
+
+        <dependency>
+            <groupId>se.uhr.simone</groupId>
+            <artifactId>simone</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>${version.derby}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbynet</artifactId>
+            <version>${version.derby}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- WILDFLY SWARM FRACTIONS -->
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>cdi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>ejb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jaxrs-jaxb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>transactions</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>swagger</artifactId>
+        </dependency>
+
+        <!-- test -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.8.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>simeone-example</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+
+            <!-- xsd -->
+
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb22-plugin</artifactId>
+                <version>0.13.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <args>
+                        <arg>-Xfluent-builder</arg>
+                    </args>
+                    <plugins>
+                        <plugin>
+                            <groupId>net.codesup.util</groupId>
+                            <artifactId>jaxb2-rich-contract-plugin</artifactId>
+                            <version>1.18.0</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Docker -->
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.3.4</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <tag>${docker.tag}</tag>
+                    <repository>simone-example</repository>
+                </configuration>
+            </plugin>
 
 
-		<!-- test -->
+            <!-- Swagger UI -->
+            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-clean-plugin</artifactId>
+                <version>3.0.0</version> <configuration> <filesets> <fileset> <directory>${project.build.directory}</directory>
+                </fileset> <fileset> <directory>src/main/webapp/doc</directory> <includes>
+                <include>*</include> <include>css/*</include> <include>images/*</include>
+                <include>lib/shred/*</include> <include>lib/*</include> </includes> <excludes>
+                <exclude>index.html</exclude> <exclude>.gitignore</exclude> </excludes> </fileset>
+                </filesets> </configuration> </plugin> <plugin> <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId> <version>1.2.1</version> <executions>
+                <execution> <id>swagger-ui</id> <phase>validate</phase> <goals> <goal>wget</goal>
+                </goals> <configuration> <url>https://github.com/swagger-api/swagger-ui/archive/v${version.swagger-ui}.zip</url>
+                <unpack>true</unpack> <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration> </execution> </executions> </plugin> <plugin> <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version> <executions> <execution> <id>copy-resources</id>
+                <phase>validate</phase> <goals> <goal>copy-resources</goal> </goals> <configuration>
+                <outputDirectory>${basedir}/src/main/webapp/doc/</outputDirectory> <resources>
+                <resource> <directory>${project.build.directory}/swagger-ui-${version.swagger-ui}/dist</directory>
+                <filtering>true</filtering> <excludes> <exclude>index.html</exclude> </excludes>
+                </resource> </resources> </configuration> </execution> </executions> </plugin> -->
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <goals>package</goals>
+                    <tagNameFormat>simone-example-@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+        </plugins>
 
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
-
-	<build>
-		<plugins>
-
-			<!-- xsd -->
-
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb22-plugin</artifactId>
-				<version>0.13.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<args>
-						<arg>-Xfluent-builder</arg>
-					</args>
-					<plugins>
-						<plugin>
-							<groupId>net.codesup.util</groupId>
-							<artifactId>jaxb2-rich-contract-plugin</artifactId>
-							<version>1.18.0</version>
-						</plugin>
-					</plugins>
-				</configuration>
-			</plugin>
-
-			<!-- Docker -->
-
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.13</version>
-				<configuration>
-					<imageName>simone-example</imageName>
-					<imageTags>
-						<imageTag>${project.version}</imageTag>
-						<imageTag>latest</imageTag>
-					</imageTags>
-					<dockerDirectory>${basedir}/docker</dockerDirectory>
-					<forceTags>true</forceTags>
-					<images>
-						<image>
-							<build>
-								<args>
-									<RESOURCE_NAME>${project.build.finalName}.${project.packaging}</RESOURCE_NAME>
-								</args>
-							</build>
-						</image>
-					</images>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.${project.packaging}</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-
-			<!-- Swagger UI -->
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>${project.build.directory}</directory>
-						</fileset>
-						<fileset>
-							<directory>src/main/webapp/doc</directory>
-							<includes>
-								<include>*</include>
-								<include>css/*</include>
-								<include>images/*</include>
-								<include>lib/shred/*</include>
-								<include>lib/*</include>
-							</includes>
-							<excludes>
-								<exclude>index.html</exclude>
-								<exclude>.gitignore</exclude>
-							</excludes>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.googlecode.maven-download-plugin</groupId>
-				<artifactId>download-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<id>swagger-ui</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>wget</goal>
-						</goals>
-						<configuration>
-							<url>https://github.com/swagger-api/swagger-ui/archive/v${version.swagger-ui}.zip</url>
-							<unpack>true</unpack>
-							<outputDirectory>${project.build.directory}</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/src/main/webapp/doc/</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.build.directory}/swagger-ui-${version.swagger-ui}/dist</directory>
-									<filtering>true</filtering>
-
-									<excludes>
-										<exclude>index.html</exclude>
-									</excludes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<goals>package</goals>
-					<tagNameFormat>simone-example-@{project.version}</tagNameFormat>
-				</configuration>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>com.googlecode.maven-download-plugin</groupId>
-										<artifactId>download-maven-plugin</artifactId>
-										<versionRange>[1.2.1,)</versionRange>
-										<goals>
-											<goal>wget</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+        <!-- <pluginManagement> <plugins> <plugin> <groupId>org.eclipse.m2e</groupId>
+            <artifactId>lifecycle-mapping</artifactId> <version>1.0.0</version> <configuration>
+            <lifecycleMappingMetadata> <pluginExecutions> <pluginExecution> <pluginExecutionFilter>
+            <groupId>com.googlecode.maven-download-plugin</groupId> <artifactId>download-maven-plugin</artifactId>
+            <versionRange>[1.2.1,)</versionRange> <goals> <goal>wget</goal> </goals>
+            </pluginExecutionFilter> <action> <execute /> </action> </pluginExecution>
+            </pluginExecutions> </lifecycleMappingMetadata> </configuration> </plugin>
+            </plugins> </pluginManagement> -->
+    </build>
 
 </project>

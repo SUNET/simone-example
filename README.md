@@ -1,7 +1,6 @@
 # SimOne-example
 
-Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a war that depends on the SimOne core jar. The war is deployed in a Jboss Wildfly server that runs in a Docker container. The Docker image is based on the SimOne image.
-
+Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a war that depends on the SimOne core jar. The war is built in a Jboss Wildfly Swarm server that runs in a Docker container.
 
 [OrderResource.java](src/main/java/se/uhr/simone/restbucks/boundary/OrderResource.java): Implements A JAX-RS REST API to simulate. In the example it is possible to create and view a Coffee order.
 
@@ -17,12 +16,20 @@ cd simone-example
 ```
 
 ## Build
-Builds the war and deploys it in a Jboss Wildfly Docker container.
+Builds the Wildfly Swarm uber jar and Docker container.
 
 ```bash
-mvn package docker:build
+mvn package
 ```
 ## Run
+
+## Without Docker
+
+```bash
+java -jar target/simeone-example-swarm.jar
+```
+
+## With Docker
 
 Run the example on port 8080
 
@@ -35,48 +42,48 @@ docker run -it --rm -p 8080:8080 simone-example
 ### Add Order
 
 ```bash
-curl -X POST -d "Coffee" 'http://localhost:8080/sim/api/order'
+curl -X POST -d "Coffee" 'http://localhost:8080/order'
 ```
 
 ### Read Orders
 
 ```bash
-curl 'http://localhost:8080/sim/api/order'
+curl 'http://localhost:8080/order'
 ```
 
 ### Read the Feed
 
 ```bash
-curl 'http://localhost:8080/sim/api/feed/recent'
+curl 'http://localhost:8080/feed/recent'
 ```
 
 ### Empty the database
 
 ```bash
-curl -X DELETE 'http://localhost:8080/sim/api/admin/database'
+curl -X DELETE 'http://localhost:8080/admin/database'
 ```
 
-See <http://localhost:8080/sim/doc/#/database_admin> for more information about manipulating the database.
+See <http://localhost:8080/doc/#/database_admin> for more information about manipulating the database.
 
 ### Send custom Feed event
 
 Sends a custom Feed event (possible erroneous) for test purposes
 
 ```bash
-curl -X POST --header 'Content-Type: application/json' -d '{"contentType": "application/xml","content": "<message>hello</message>"}' 'http://localhost:8080/sim/api/admin/feed/event'
+curl -X POST --header 'Content-Type: application/json' -d '{"contentType": "application/xml","content": "<message>hello</message>"}' 'http://localhost:8080/admin/feed/event'
 ```
 
-See <http://localhost:8080/sim/doc/#/feed_admin> for more information about manipulating the feed.
+See <http://localhost:8080/doc/#/feed_admin> for more information about manipulating the feed.
 
 ### Make SimOne answer with a different HTTP status code
 
 For every REST request respond with status code 201.
 
 ```bash
-curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost:8080/sim/api/admin/rs/response/code/global'
+curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost:8080/admin/rs/response/code/global'
 ```
 
-See <http://localhost:8080/sim/doc/#/rest_admin> for more information about manipulating the REST-API.
+See <http://localhost:8080/doc/#/rest_admin> for more information about manipulating the REST-API.
 
 ## Batch load
 
@@ -87,7 +94,7 @@ There are two options to load SimOne with a batch of orders.
 Load SimOne with information from `etc/orders.txt`
 
 ```bash
-curl -X POST --header 'Content-Type: multipart/form-data' -F name=orders.txt -F 'content=@etc/orders.txt' 'http://localhost:8080/sim/api/admin/database'
+curl -X POST --header 'Content-Type: multipart/form-data' -F name=orders.txt -F 'content=@etc/orders.txt' 'http://localhost:8080/admin/database'
 ```
 
 ### Dropin directory
@@ -100,7 +107,21 @@ cp etc/orders.txt /tmp/mydropindir/
 
 ## Inspect the database
 
-Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver and the URL: `jdbc:derby://localhost:1527/restbucks`. See <https://github.com/SUNET/simone#inspect-the-feed-database> for more information.
+Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver.
+
+### Feed database
+
+URL: `jdbc:derby://localhost:1527/feed`
+
+### Restbucks database
+
+URL: `jdbc:derby://localhost:1527/restbucks`
+
+## Swagger
+
+The Swagger definition is available at <http://localhost:8080/swagger.json>
+
+See [Docker Compose](#docker-compose) for how to view the Swagger documentation.
 
 ## Tips
 
@@ -114,6 +135,45 @@ If you change the port or SimOne is installed behind a firewall you must change 
 ```bash
 -e "SIMONE_BASE_URI=http://my.uri.se"
 ```
+
+## Files
+
+### Logfiles
+
+Logfiles written to stdout.
+
+### Database
+
+All database files are stored under `/var/simone/db`
+
+### Dropin
+
+`dropin` is a special directory that is monitored by SimOne. When a new file is discovered extensions are notified and may handle the file in any way they want. The dropin directory location is `/var/simone/dropin`
+
+## Debug
+
+### Remote debug the application
+
+You can remote debug the application in the running container by hooking up jdb to port 8787. Note that you also must expose the port in the docker run command.
+
+```bash
+jdb -attach 8787
+```
+
+# Docker Compose
+
+The example includes a Docker Compose file that starts the example app along with a Swagger server.
+
+```bash
+cd sites
+docker-compose up
+```
+
+Checkout the Swagger documentation at <http://localhost:8090>
+
+# Known problems
+
+* It is not possible to load SimOne by selecting a file in Swagger.
 
 ## Prerequisites
 
