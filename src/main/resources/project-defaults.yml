@@ -52,3 +52,8 @@ swarm:
       se.uhr:
         level: DEBUG
 
+derby:
+  drda:
+    startNetworkServer: true
+    host: 0.0.0.0
+    portNumber: 1527

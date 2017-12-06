@@ -19,14 +19,14 @@ import org.slf4j.LoggerFactory;
 import se.uhr.simone.example.api.Link;
 import se.uhr.simone.example.api.OrderEventRepresentation;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.Constants;
+import se.uhr.simone.extension.api.SimoneProperties;
 import se.uhr.simone.extension.api.feed.AtomCategory;
-import se.uhr.simone.extension.api.feed.AtomEntry;
-import se.uhr.simone.extension.api.feed.FeedPublisher;
-import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.extension.api.feed.AtomCategory.Label;
 import se.uhr.simone.extension.api.feed.AtomCategory.Term;
+import se.uhr.simone.extension.api.feed.AtomEntry;
 import se.uhr.simone.extension.api.feed.AtomEntry.AtomEntryId;
+import se.uhr.simone.extension.api.feed.FeedPublisher;
+import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
 public class OrderController {
@@ -43,17 +43,15 @@ public class OrderController {
 	public OrderRepresentation create(String description) {
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
-		OrderRepresentation order = OrderRepresentation.builder().withId(orderId.toString())
-				.withDescription(description).withTime(Instant.now()).build();
+		OrderRepresentation order =
+				OrderRepresentation.builder().withId(orderId.toString()).withDescription(description).withTime(Instant.now()).build();
 
 		orderRepository.put(orderId, order);
 
-		URI uri = UriBuilder.fromUri(Constants.REST_URI).segment("order").segment(orderId.toString()).build();
+		URI uri = UriBuilder.fromUri(SimoneProperties.getBaseRestURI()).segment("order").segment(orderId.toString()).build();
 
-		Link link = Link.builder().withRel("order").withHref(uri.toString()).withType(MediaType.APPLICATION_JSON)
-				.build();
-		OrderEventRepresentation event = OrderEventRepresentation.builder().withId(orderId.toString()).withLink(link)
-				.build();
+		Link link = Link.builder().withRel("order").withHref(uri.toString()).withType(MediaType.APPLICATION_JSON).build();
+		OrderEventRepresentation event = OrderEventRepresentation.builder().withId(orderId.toString()).withLink(link).build();
 
 		publishFeedEntry(orderId, convertToXml(event));
 
@@ -83,9 +81,12 @@ public class OrderController {
 	}
 
 	private void publishFeedEntry(UniqueIdentifier uid, String content) {
-		AtomEntry entry = AtomEntry.builder().withAtomEntryId(AtomEntryId.of(uid, MediaType.APPLICATION_XML))
-				.withSubmittedNow().withXml(content)
-				.withCategory(AtomCategory.of(Term.of("myterm"), Label.of("mylabel"))).build();
+		AtomEntry entry = AtomEntry.builder()
+				.withAtomEntryId(AtomEntryId.of(uid, MediaType.APPLICATION_XML))
+				.withSubmittedNow()
+				.withXml(content)
+				.withCategory(AtomCategory.of(Term.of("myterm"), Label.of("mylabel")))
+				.build();
 
 		feedPublisher.publish(entry);
 	}
