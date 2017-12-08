@@ -41,7 +41,7 @@
         <docker.tag>latest</docker.tag>
         <version.wildfly.swarm>2017.11.0</version.wildfly.swarm>
         <version.org.slf4j>1.7.22</version.org.slf4j>
-        <version.derby>10.11.1.1</version.derby>
+        <version.derby>10.14.1.0</version.derby>
     </properties>
 
     <dependencyManagement>

@@ -50,7 +50,7 @@ swarm:
         level: DEBUG
     loggers:
       se.uhr:
-        level: DEBUG
+        level: INFO
 
 derby:
   drda:

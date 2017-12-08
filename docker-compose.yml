@@ -7,6 +7,8 @@ services:
       - 8787:8787
       - 9990:9990
       - 1527:1527
+    volumes:
+      - ./dropin:/var/simone/dropin      
           
   swagger:
     image: swaggerapi/swagger-ui:v3.4.0

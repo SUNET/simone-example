@@ -165,7 +165,6 @@ jdb -attach 8787
 The example includes a Docker Compose file that starts the example app along with a Swagger server.
 
 ```bash
-cd sites
 docker-compose up
 ```
 

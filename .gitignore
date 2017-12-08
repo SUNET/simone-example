@@ -7,6 +7,6 @@ derby.log
 release.properties
 
 # database
-./feed/
-./restbucks/
+/feed/
+/restbucks/
 
