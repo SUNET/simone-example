@@ -22,19 +22,6 @@ swarm:
           createDatabase:
             value: create
 
-      RestbucksDS:
-        driver-name: derby-embedded
-        jndi-name: java:/jdbc/Restbucks
-        same-rm-override: false
-        xa-datasource-class: org.apache.derby.jdbc.EmbeddedXADataSource
-        user-name: sa
-        password: admin
-        xa-datasource-properties:
-          databaseName:
-            value: restbucks
-          createDatabase:
-            value: create
-
   deployment:
     simeone-example.war:
       swagger:

@@ -113,10 +113,6 @@ Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apa
 
 URL: `jdbc:derby://localhost:1527/feed`
 
-### Restbucks database
-
-URL: `jdbc:derby://localhost:1527/restbucks`
-
 ## Swagger
 
 The Swagger definition is available at <http://localhost:8080/swagger.json>
