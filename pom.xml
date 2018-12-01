@@ -39,7 +39,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <m2e.cdi.activation>true</m2e.cdi.activation>
         <docker.tag>latest</docker.tag>
-        <version.wildfly.swarm>2018.2.0.Final</version.wildfly.swarm>
+        <version.thorntail>2.2.1.Final</version.thorntail>
         <version.org.slf4j>1.7.22</version.org.slf4j>
         <version.derby>10.14.2.0</version.derby>
         <version.jupiter>5.3.2</version.jupiter>
@@ -48,9 +48,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${version.wildfly.swarm}</version>
+                <groupId>io.thorntail</groupId>
+                <artifactId>bom</artifactId>
+                <version>${version.thorntail}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -58,14 +58,8 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Java EE 7 -->
 
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- 3PP -->
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -114,43 +108,44 @@
         <!-- WILDFLY SWARM FRACTIONS -->
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>cdi</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>ejb</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>jaxrs-jaxb</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>jaxrs-multipart</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>datasources</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>transactions</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>logging</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>swagger</artifactId>
+            <version>${version.thorntail}</version>
         </dependency>
 
         <!-- test -->
@@ -213,9 +208,9 @@
             </plugin>
 
             <plugin>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>${version.wildfly.swarm}</version>
+                <groupId>io.thorntail</groupId>
+                <artifactId>thorntail-maven-plugin</artifactId>
+                <version>${version.thorntail}</version>
                 <executions>
                     <execution>
                         <goals>

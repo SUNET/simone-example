@@ -7,7 +7,7 @@ RUN mkdir -p /opt/simone && \
     
 USER simone
 
-COPY target/simeone-example-swarm.jar /opt/simone
+COPY target/simeone-example-thorntail.jar /opt/simone
 
 RUN mkdir /var/simone/dropin && \
     mkdir /var/simone/db
@@ -27,4 +27,4 @@ CMD java -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n \
     -Dse.uhr.simone.dropin=/var/simone/dropin \
     -Dse.uhr.simone.example.db.home=/var/simone/db/restbucks \
     -Dswarm.management.bind.address=0.0.0.0 \
-    -jar /opt/simone/simeone-example-swarm.jar
+    -jar /opt/simone/simeone-example-thorntail.jar

@@ -1,4 +1,4 @@
-swarm:
+thorntail:
   datasources:
     jdbc-drivers:
       derby-embedded:
