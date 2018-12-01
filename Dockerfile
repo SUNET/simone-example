@@ -19,4 +19,12 @@ EXPOSE 8787
 
 WORKDIR /var/simone
 
-CMD ["java", "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n","-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.net.preferIPv4Stack=true", "-Dderby.system.home=/var/simone/db", "-Dse.uhr.simone.dropin=/var/simone/dropin", "-Dse.uhr.simone.example.db.home=/var/simone/db/restbucks", "-Dswarm.management.bind.address=0.0.0.0", "-jar", "/opt/simone/simeone-example-swarm.jar"]
+CMD java -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n \
+    -XX:+UnlockExperimentalVMOptions \
+    -XX:+UseCGroupMemoryLimitForHeap \
+    -Djava.net.preferIPv4Stack=true \
+    -Dderby.system.home=/var/simone/db \
+    -Dse.uhr.simone.dropin=/var/simone/dropin \
+    -Dse.uhr.simone.example.db.home=/var/simone/db/restbucks \
+    -Dswarm.management.bind.address=0.0.0.0 \
+    -jar /opt/simone/simeone-example-swarm.jar

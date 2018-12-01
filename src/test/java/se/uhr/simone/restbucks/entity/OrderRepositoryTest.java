@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.time.Instant;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import se.uhr.simone.example.api.OrderRepresentation;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
@@ -25,7 +25,7 @@ public class OrderRepositoryTest {
 		cut = new OrderRepository();
 	}
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException {
 		cut.clear();
 	}
