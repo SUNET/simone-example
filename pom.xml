@@ -149,6 +149,11 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-health</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
             <artifactId>swagger</artifactId>
             <version>${version.thorntail}</version>
         </dependency>

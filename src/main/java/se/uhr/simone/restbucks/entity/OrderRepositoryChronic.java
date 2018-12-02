@@ -53,9 +53,13 @@ public class OrderRepositoryChronic implements DatabaseAdmin, OrderRepository {
 		return new ArrayList<>(store.values());
 	}
 
+	@Override
+	public int size() {
+		return store.size();
+	}
+
 	public void clear() {
 		store.clear();
-
 	}
 
 	public void close() {

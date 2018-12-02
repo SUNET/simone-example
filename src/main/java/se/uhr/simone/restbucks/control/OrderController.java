@@ -55,9 +55,13 @@ public class OrderController {
 
 		publishFeedEntry(orderId, convertToXml(event));
 
-		LOG.info("Create order id: {}", orderId.toString());
+		LOG.info("Create order id: {}", orderId);
 
 		return order;
+	}
+
+	public int size() {
+		return orderRepository.size();
 	}
 
 	public OrderRepresentation get(UniqueIdentifier id) {
