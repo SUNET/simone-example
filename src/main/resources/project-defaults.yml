@@ -36,7 +36,7 @@ thorntail:
       CONSOLE:
         level: DEBUG
     loggers:
-      se.uhr:
+      se.uhr.simone.restbucks:
         level: INFO
 
 derby:

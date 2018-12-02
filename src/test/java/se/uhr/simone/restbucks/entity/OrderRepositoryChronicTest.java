@@ -3,17 +3,22 @@ package se.uhr.simone.restbucks.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.Instant;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
+import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
 import se.uhr.simone.example.api.OrderRepresentation;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 
-public class OrderRepositoryTest {
+@ExtendWith(TempDirectory.class)
+public class OrderRepositoryChronicTest {
 
-	private final OrderRepository cut;
+	OrderRepositoryChronic cut;
 
 	private static final Instant EPOC = Instant.ofEpochSecond(0);
 
@@ -21,13 +26,9 @@ public class OrderRepositoryTest {
 
 	private static final OrderRepresentation ORDER = create(ORDER_ID);
 
-	public OrderRepositoryTest() throws IOException {
-		cut = new OrderRepository();
-	}
-
 	@BeforeEach
-	public void before() throws IOException {
-		cut.clear();
+	public void beforeEach(@TempDir Path tempDir) throws IOException {
+		cut = new OrderRepositoryChronic(tempDir.resolve("restbucks"));
 	}
 
 	@Test
@@ -48,14 +49,13 @@ public class OrderRepositoryTest {
 	}
 
 	@Test
-	public void shouldReadFromDisk() throws IOException {
+	public void shouldReadFromDisk(@TempDir Path tempDir) throws IOException {
 		cut.put(ORDER_ID, ORDER);
 		assertThat(cut.get(ORDER_ID).getTime()).isEqualTo(EPOC);
 
-		OrderRepository tmp = new OrderRepository();
+		OrderRepository tmp = new OrderRepositoryChronic(tempDir.resolve("restbucks"));
 
 		assertThat(tmp.get(ORDER_ID).getTime()).isEqualTo(EPOC);
-
 	}
 
 	static OrderRepresentation create(UniqueIdentifier id) {
