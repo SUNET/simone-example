@@ -11,6 +11,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
 
 import net.openhft.chronicle.map.ChronicleMap;
 import se.uhr.simone.example.api.OrderRepresentation;
@@ -53,7 +55,7 @@ public class OrderRepositoryChronic implements DatabaseAdmin, OrderRepository {
 		return new ArrayList<>(store.values());
 	}
 
-	@Override
+	@Gauge(unit = MetricUnits.NONE, name = "order.db.size", absolute = true, description = "Number of orders")
 	public int size() {
 		return store.size();
 	}

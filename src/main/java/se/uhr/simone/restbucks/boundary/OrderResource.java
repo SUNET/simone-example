@@ -39,8 +39,7 @@ public class OrderResource {
 	@ApiOperation(value = "Fetch all orders", response = OrderRepresentation.class, responseContainer = "List")
 	@GET
 	public Response readAll() {
-		GenericEntity<List<OrderRepresentation>> orders = new GenericEntity<List<OrderRepresentation>>(
-				controller.getAll()) {
+		GenericEntity<List<OrderRepresentation>> orders = new GenericEntity<List<OrderRepresentation>>(controller.getAll()) {
 		};
 
 		return Response.ok(orders).build();
@@ -56,4 +55,5 @@ public class OrderResource {
 
 		return order != null ? Response.ok(order).build() : Response.status(Status.NOT_FOUND).build();
 	}
+
 }

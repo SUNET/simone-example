@@ -154,6 +154,11 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-metrics</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
             <artifactId>swagger</artifactId>
             <version>${version.thorntail}</version>
         </dependency>

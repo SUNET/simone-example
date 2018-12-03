@@ -13,6 +13,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +41,8 @@ public class OrderController {
 	@Inject
 	private FeedPublisher feedPublisher;
 
+	@Counted(monotonic = true, name = "order.placed.count", absolute = true)
+	@Timed(name = "order.placed.count.time", absolute = true)
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public OrderRepresentation create(String description) {
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
@@ -58,10 +62,6 @@ public class OrderController {
 		LOG.info("Create order id: {}", orderId);
 
 		return order;
-	}
-
-	public int size() {
-		return orderRepository.size();
 	}
 
 	public OrderRepresentation get(UniqueIdentifier id) {

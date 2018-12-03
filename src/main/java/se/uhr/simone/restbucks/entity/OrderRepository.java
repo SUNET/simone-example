@@ -13,6 +13,4 @@ public interface OrderRepository {
 
 	List<OrderRepresentation> getAll();
 
-	int size();
-
 }
