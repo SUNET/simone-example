@@ -15,12 +15,10 @@ RUN mkdir /var/simone/dropin && \
 EXPOSE 1527
 EXPOSE 8080
 EXPOSE 9990
-EXPOSE 8787
 
 WORKDIR /var/simone
 
-CMD java -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n \
-    -XX:+UnlockExperimentalVMOptions \
+CMD java -XX:+UnlockExperimentalVMOptions \
     -XX:+UseCGroupMemoryLimitForHeap \
     -Djava.net.preferIPv4Stack=true \
     -Dderby.system.home=/var/simone/db \

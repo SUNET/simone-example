@@ -6,6 +6,10 @@ import java.time.format.DateTimeParseException;
 
 public class InstantAdaptor {
 
+	private InstantAdaptor() {
+
+	}
+
 	public static String marshal(Instant value) {
 		if (value != null) {
 			return DateTimeFormatter.ISO_INSTANT.format(value);

@@ -14,13 +14,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
 import se.uhr.simone.example.api.OrderRepresentation;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.control.OrderController;
 
-@Api(tags = { "example" })
+@Tag(name = "order")
 @Path("order")
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Singleton
@@ -29,14 +34,16 @@ public class OrderResource {
 	@Inject
 	private OrderController controller;
 
-	@ApiOperation(value = "Create order", response = OrderRepresentation.class)
+	@Operation(summary = "Create order")
+	@APIResponse(description = "The order", content = @Content(schema = @Schema(implementation = OrderRepresentation.class)))
 	@POST
 	public Response create(String description) {
 		OrderRepresentation order = controller.create(description);
 		return Response.ok(order).build();
 	}
 
-	@ApiOperation(value = "Fetch all orders", response = OrderRepresentation.class, responseContainer = "List")
+	@Operation(summary = "Get all orders")
+	@APIResponse(description = "List of orders", content = @Content(schema = @Schema(type = SchemaType.ARRAY, implementation = OrderRepresentation.class)))
 	@GET
 	public Response readAll() {
 		GenericEntity<List<OrderRepresentation>> orders = new GenericEntity<List<OrderRepresentation>>(controller.getAll()) {
@@ -45,7 +52,8 @@ public class OrderResource {
 		return Response.ok(orders).build();
 	}
 
-	@ApiOperation(value = "Fetch order", response = OrderRepresentation.class)
+	@Operation(summary = "Get specific order")
+	@APIResponse(description = "The order", content = @Content(schema = @Schema(implementation = OrderRepresentation.class)))
 	@GET
 	@Path("/{orderId}")
 	public Response read(@PathParam("orderId") String orderId) {

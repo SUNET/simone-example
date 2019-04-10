@@ -115,7 +115,7 @@ URL: `jdbc:derby://localhost:1527/feed`
 
 ## Swagger
 
-The Swagger definition is available at <http://localhost:8080/swagger.json>
+The openapi documentation is available at <http://localhost:8080/openapi>
 
 See [Docker Compose](#docker-compose) for how to view the Swagger documentation.
 
@@ -166,6 +166,11 @@ docker-compose up
 
 Checkout the Swagger documentation at <http://localhost:8090>
 
+# Microprofile
+
+Rudimentary support for Microprofile [Health](http://localhost:8080/health) and [Metrics](http://localhost:8080/metrics).
+
+
 # Known problems
 
 * It is not possible to load SimOne by selecting a file in Swagger.
@@ -176,7 +181,3 @@ Checkout the Swagger documentation at <http://localhost:8090>
 * JDK 1.8
 * Maven 3
 * Docker
-
-## Todo
-
-* Create a Maven archetype that creates a new project from this example

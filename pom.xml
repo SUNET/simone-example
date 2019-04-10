@@ -4,7 +4,7 @@
 
     <groupId>se.uhr.simone</groupId>
     <artifactId>example</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>restbucks</name>
@@ -39,10 +39,10 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <m2e.cdi.activation>true</m2e.cdi.activation>
         <docker.tag>latest</docker.tag>
-        <version.thorntail>2.2.1.Final</version.thorntail>
-        <version.org.slf4j>1.7.22</version.org.slf4j>
+        <version.thorntail>2.4.0.Final</version.thorntail>
+        <version.org.slf4j>1.7.26</version.org.slf4j>
         <version.derby>10.14.2.0</version.derby>
-        <version.jupiter>5.3.2</version.jupiter>
+        <version.jupiter>5.4.1</version.jupiter>
     </properties>
 
     <dependencyManagement>
@@ -72,13 +72,13 @@
         <dependency>
             <groupId>se.uhr.simone</groupId>
             <artifactId>simone</artifactId>
-            <version>2.0.1</version>
+            <version>2.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>net.openhft</groupId>
             <artifactId>chronicle-map</artifactId>
-            <version>3.14.4</version>
+            <version>3.17.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.sun.java</groupId>
@@ -159,8 +159,7 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
-            <artifactId>swagger</artifactId>
-            <version>${version.thorntail}</version>
+            <artifactId>microprofile-openapi</artifactId>
         </dependency>
 
         <!-- test -->
@@ -171,18 +170,14 @@
             <version>${version.jupiter}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${version.jupiter}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit-pioneer</groupId>
-            <artifactId>junit-pioneer</artifactId>
-            <version>0.3.0</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -259,6 +254,24 @@
                 <configuration>
                     <tag>${docker.tag}</tag>
                     <repository>simone-example</repository>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Build-Number>${build.number}</Build-Number>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                            <Implementation-SCM-Revision>${scm.revision}</Implementation-SCM-Revision>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
 

@@ -8,14 +8,11 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
-import org.junitpioneer.jupiter.TempDirectory.TempDir;
+import org.junit.jupiter.api.io.TempDir;
 
 import se.uhr.simone.example.api.OrderRepresentation;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 
-@ExtendWith(TempDirectory.class)
 public class OrderRepositoryChronicTest {
 
 	OrderRepositoryChronic cut;
