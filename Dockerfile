@@ -1,10 +1,9 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-slim
 
-RUN mkdir -p /opt/simone && \
-    mkdir /var/simone && \
-    adduser -D -h /opt/simone simone && \
-    chown simone:0 /var/simone
-    
+RUN adduser --system --home /opt/simone --shell /sbin/nologin simone
+
+RUN mkdir /var/simone && chown simone:0 /var/simone
+
 USER simone
 
 COPY target/simeone-example-thorntail.jar /opt/simone
@@ -18,11 +17,8 @@ EXPOSE 9990
 
 WORKDIR /var/simone
 
-CMD java -XX:+UnlockExperimentalVMOptions \
-    -XX:+UseCGroupMemoryLimitForHeap \
-    -Djava.net.preferIPv4Stack=true \
+CMD java -Djava.net.preferIPv4Stack=true \
     -Dderby.system.home=/var/simone/db \
     -Dse.uhr.simone.dropin=/var/simone/dropin \
     -Dse.uhr.simone.example.db.home=/var/simone/db/restbucks \
-    -Dswarm.management.bind.address=0.0.0.0 \
     -jar /opt/simone/simeone-example-thorntail.jar

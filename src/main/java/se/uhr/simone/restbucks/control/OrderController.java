@@ -41,7 +41,7 @@ public class OrderController {
 	@Inject
 	private FeedPublisher feedPublisher;
 
-	@Counted(monotonic = true, name = "order.placed.count", absolute = true)
+	@Counted(name = "order.placed.count", absolute = true)
 	@Timed(name = "order.placed.count.time", absolute = true)
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public OrderRepresentation create(String description) {
@@ -89,7 +89,7 @@ public class OrderController {
 				.withAtomEntryId(AtomEntryId.of(uid, MediaType.APPLICATION_XML))
 				.withSubmittedNow()
 				.withXml(content)
-				.withCategory(AtomCategory.of(Term.of("myterm"), Label.of("mylabel")))
+				.withCategory(AtomCategory.builder().withTerm(Term.of("myterm")).withLabel(Label.of("mylabel")).build())
 				.build();
 
 		feedPublisher.publish(entry);

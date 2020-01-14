@@ -4,7 +4,7 @@ thorntail:
       derby-embedded:
         driver-name: derby-embedded
         datasource-class: org.apache.derby.jdbc.EmbeddedDataSource
-        driver-module-name: org.apache.derby
+        driver-module-name: org.apache.derby.jdbc
         driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
         driver-xa-datasource-class-name: org.apache.derby.jdbc.EmbeddedXADataSource
 
