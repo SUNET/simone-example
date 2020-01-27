@@ -26,7 +26,7 @@ import se.uhr.simone.extension.api.feed.AtomCategory;
 import se.uhr.simone.extension.api.feed.AtomCategory.Label;
 import se.uhr.simone.extension.api.feed.AtomCategory.Term;
 import se.uhr.simone.extension.api.feed.AtomEntry;
-import se.uhr.simone.extension.api.feed.AtomEntry.AtomEntryId;
+import se.uhr.simone.extension.api.feed.Content;
 import se.uhr.simone.extension.api.feed.FeedPublisher;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.entity.OrderRepository;
@@ -86,9 +86,9 @@ public class OrderController {
 
 	private void publishFeedEntry(UniqueIdentifier uid, String content) {
 		AtomEntry entry = AtomEntry.builder()
-				.withAtomEntryId(AtomEntryId.of(uid, MediaType.APPLICATION_XML))
+				.withAtomEntryId(uid.toString())
 				.withSubmittedNow()
-				.withXml(content)
+				.withContent(Content.builder().withValue(content).withContentType(MediaType.APPLICATION_XML).build())
 				.withCategory(AtomCategory.builder().withTerm(Term.of("myterm")).withLabel(Label.of("mylabel")).build())
 				.build();
 
