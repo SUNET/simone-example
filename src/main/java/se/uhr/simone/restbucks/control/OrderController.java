@@ -1,5 +1,7 @@
 package se.uhr.simone.restbucks.control;
 
+import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
+
 import java.io.StringWriter;
 import java.net.URI;
 import java.time.Instant;
@@ -7,7 +9,6 @@ import java.time.Instant;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBContext;
@@ -19,10 +20,10 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.uhr.simone.core.control.SimoneConfiguration;
 import se.uhr.simone.example.api.Link;
 import se.uhr.simone.example.api.OrderEventRepresentation;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.SimoneProperties;
 import se.uhr.simone.extension.api.feed.AtomCategory;
 import se.uhr.simone.extension.api.feed.AtomCategory.Label;
 import se.uhr.simone.extension.api.feed.AtomCategory.Term;
@@ -38,6 +39,9 @@ public class OrderController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 
 	@Inject
+	SimoneConfiguration config;
+
+	@Inject
 	OrderRepository orderRepository;
 
 	@Inject
@@ -45,7 +49,7 @@ public class OrderController {
 
 	@Counted(name = "order.placed.count", absolute = true)
 	@Timed(name = "order.placed.count.time", absolute = true)
-	@Transactional(value = TxType.REQUIRES_NEW)
+	@Transactional(REQUIRES_NEW)
 	public OrderRepresentation create(String description) {
 
 		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog("init");
@@ -58,7 +62,7 @@ public class OrderController {
 
 		orderRepository.put(orderId, order);
 
-		URI uri = UriBuilder.fromUri(SimoneProperties.getBaseRestURI()).segment("order").segment(orderId.toString()).build();
+		URI uri = UriBuilder.fromUri(config.getBaseRestURI()).segment("order").segment(orderId.toString()).build();
 
 		Link link = Link.builder().withRel("order").withHref(uri.toString()).withType(MediaType.APPLICATION_JSON).build();
 		OrderEventRepresentation event = OrderEventRepresentation.builder().withId(orderId.toString()).withLink(link).build();
