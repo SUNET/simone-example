@@ -15,8 +15,8 @@ import se.uhr.simone.extension.api.fileloader.FileLoaderDescriptor;
 public class OrderFileLoaderDescriptor implements FileLoaderDescriptor {
 
 	@Inject
-	private OrderController orderController;
-	
+	OrderController orderController;
+
 	@Override
 	public boolean accept(String filename) {
 		return filename.endsWith(".txt");

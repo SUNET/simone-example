@@ -2,7 +2,6 @@ package se.uhr.simone.restbucks.boundary;
 
 import java.util.List;
 
-import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,13 +25,12 @@ import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.control.OrderController;
 
 @Tag(name = "order")
-@Path("order")
+@Path("/order")
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Singleton
 public class OrderResource {
 
 	@Inject
-	private OrderController controller;
+	OrderController controller;
 
 	@Operation(summary = "Create order")
 	@APIResponse(description = "The order", content = @Content(schema = @Schema(implementation = OrderRepresentation.class)))

@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.time.Instant;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -31,20 +32,25 @@ import se.uhr.simone.extension.api.feed.FeedPublisher;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
+@Dependent
 public class OrderController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 
 	@Inject
-	private OrderRepository orderRepository;
+	OrderRepository orderRepository;
 
 	@Inject
-	private FeedPublisher feedPublisher;
+	FeedPublisher feedPublisher;
 
 	@Counted(name = "order.placed.count", absolute = true)
 	@Timed(name = "order.placed.count.time", absolute = true)
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public OrderRepresentation create(String description) {
+
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog("init");
+		log.info("init");
+
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
 		OrderRepresentation order =
@@ -76,6 +82,7 @@ public class OrderController {
 		try {
 			JAXBContext context = JAXBContext.newInstance(event.getClass());
 			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 			StringWriter outstr = new StringWriter();
 			m.marshal(event, outstr);
 			return outstr.toString();
