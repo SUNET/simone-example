@@ -1,6 +1,6 @@
 # SimOne-example
 
-Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a war that depends on the SimOne core jar. The war is built in a Jboss Wildfly Swarm server that runs in a Docker container.
+Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a Quarkus server that depends on the SimOne core jar.
 
 [OrderResource.java](src/main/java/se/uhr/simone/restbucks/boundary/OrderResource.java): Implements A JAX-RS REST API to simulate. In the example it is possible to create and view a Coffee order.
 
@@ -39,7 +39,7 @@ java -jar target/simeone-example-runner.jar
 ## With Docker
 
 ```bash
-run -it --rm -p 8080:8080 -p 1527:1527 docker.io/maan0496/simone-example
+run -it --rm -p 8080:8080 -p 1527:1527 test/simone-example
 ```
 
 ## Try it out
@@ -174,6 +174,5 @@ Rudimentary support for Microprofile [Health](http://localhost:8080/health) and 
 
 ## Prerequisites
 
-* Git
-* JDK 1.8
-* Maven 3
+* JDK 11
+
