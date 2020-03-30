@@ -39,7 +39,7 @@ java -jar target/simeone-example-runner.jar
 ## With Docker
 
 ```bash
-run -it --rm -p 8080:8080 -p 1527:1527 test/simone-example
+docker run -it --rm -p 8080:8080 -p 1527:1527 test/simone-example
 ```
 
 ## Try it out
@@ -110,11 +110,9 @@ The dropin directory must be mounted when when the cointainer is started, first 
 cp etc/orders.txt /tmp/mydropindir/
 ```
 
-## Inspect the database
+## Inspect the feed database
 
-Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver.
-
-### Feed database
+Expose port 1527 from the docker container. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver.
 
 URL: `jdbc:derby://localhost:1527/memory:feed;create=false`
 
@@ -163,9 +161,21 @@ docker-compose up
 
 Checkout the Swagger documentation at <http://localhost:8090>
 
-# Microprofile
+# Microprofile Healt
 
-Rudimentary support for Microprofile [Health](http://localhost:8080/health) and [Metrics](http://localhost:8080/metrics).
+```bash
+curl http://localhost:8080/health
+```
+
+# Microprofile Metrics
+
+Get number of orders
+
+```bash
+curl http://localhost:8080/metrics/application
+```
+
+
 
 
 # Known problems
