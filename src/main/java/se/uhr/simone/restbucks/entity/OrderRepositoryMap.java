@@ -25,8 +25,7 @@ public class OrderRepositoryMap implements DatabaseAdmin, OrderRepository {
 	private final int maxEntries;
 
 	@Inject
-	public OrderRepositoryMap(
-			@ConfigProperty(name = "se.uhr.simone.example.db.max.entries", defaultValue = "10000") Integer maxEntries) {
+	public OrderRepositoryMap(@ConfigProperty(name = "simone.example.db.max.entries", defaultValue = "10000") Integer maxEntries) {
 		this.maxEntries = maxEntries;
 	}
 

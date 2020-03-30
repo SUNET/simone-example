@@ -16,25 +16,30 @@ cd simone-example
 ```
 
 ## Build
-Builds the Wildfly Swarm uber jar and Docker container.
+
+### Java application
+
+```
+mvn clean package
+```
+
+### Docker container
 
 ```bash
-mvn package
+mvn clean package -Dquarkus.container-image.build=true
 ```
 ## Run
 
 ## Without Docker
 
 ```bash
-java -jar target/simeone-example-swarm.jar
+java -jar target/simeone-example-runner.jar
 ```
 
 ## With Docker
 
-Run the example on port 8080
-
 ```bash
-docker run -it --rm -p 8080:8080 simone-example
+run -it --rm -p 8080:8080 -p 1527:1527 docker.io/maan0496/simone-example
 ```
 
 ## Try it out
@@ -111,7 +116,7 @@ Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apa
 
 ### Feed database
 
-URL: `jdbc:derby://localhost:1527/feed`
+URL: `jdbc:derby://localhost:1527/memory:feed;create=false`
 
 ## Swagger
 
@@ -120,10 +125,6 @@ The openapi documentation is available at <http://localhost:8080/openapi>
 See [Docker Compose](#docker-compose) for how to view the Swagger documentation.
 
 ## Tips
-
-### Re-use loaded database
-
-You may mount the database directory `/var/simone/db` if you save the simulator data between re-starts. First create a directory on you host `/tmp/mydbdir` then add `-v /tmp/mydbdir:/var/simone/db` to the docker run command.
 
 ### Base URI
 
@@ -137,10 +138,6 @@ If you change the port or SimOne is installed behind a firewall you must change 
 ### Logfiles
 
 Logfiles written to stdout.
-
-### Database
-
-All database files are stored under `/var/simone/db`
 
 ### Dropin
 
@@ -180,4 +177,3 @@ Rudimentary support for Microprofile [Health](http://localhost:8080/health) and 
 * Git
 * JDK 1.8
 * Maven 3
-* Docker
