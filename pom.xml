@@ -186,7 +186,7 @@
             <artifactId>quarkus-container-image-jib</artifactId>
         </dependency>
 
-        <!-- test -->
+        <!-- TEST -->
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -3,8 +3,6 @@ package se.uhr.simone.restbucks.boundary.application;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Path;
@@ -25,16 +23,13 @@ import se.uhr.simone.restbucks.control.application.ApplicationManifest;
 @Produces({ MediaType.APPLICATION_JSON })
 public class ApplicationResource {
 
-	@Inject
-	ServletContext context;
-
 	@Operation(summary = "Information about the application")
 	@APIResponse(description = "Version information", content = @Content(schema = @Schema(implementation = VersionRepresentation.class)))
 	@GET
 	@Path("/version")
 	public Response version() {
 
-		InputStream manifestStream = context.getResourceAsStream("/META-INF/MANIFEST.MF");
+		InputStream manifestStream = ApplicationResource.class.getResourceAsStream("/META-INF/MANIFEST.MF");
 
 		try {
 
