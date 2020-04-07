@@ -35,8 +35,7 @@ public class ApplicationResource {
 
 			ApplicationManifest manifest = new ApplicationManifest(manifestStream);
 
-			VersionRepresentation version = VersionRepresentation.of(manifest.getImplementationVersion(),
-					manifest.getImplementationSCMVersion(), BuildRepresentation.of(manifest.getBuildNumber(), manifest.getBuildTime()));
+			VersionRepresentation version = VersionRepresentation.of(manifest.getImplementationVersion());
 			return Response.ok(version).build();
 
 		} catch (IOException e) {

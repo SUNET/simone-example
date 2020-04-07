@@ -1,7 +1,5 @@
 package se.uhr.simone.restbucks.control;
 
-import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
-
 import java.io.StringWriter;
 import java.net.URI;
 import java.time.Instant;
@@ -49,7 +47,7 @@ public class OrderController {
 
 	@Counted(name = "order.placed.count", absolute = true)
 	@Timed(name = "order.placed.count.time", absolute = true)
-	@Transactional(REQUIRES_NEW)
+	@Transactional
 	public OrderRepresentation create(String description) {
 
 		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog("init");

@@ -15,28 +15,29 @@ git clone https://github.com/SUNET/simone-example.git
 cd simone-example
 ```
 
-## Build
+## Run
+
+### Development mode
+
+```
+./mvnw quarkus:dev
+```
 
 ### Java application
 
 ```
-mvn clean package
+./mvnw clean package
 ```
-
-### Docker container
-
-```bash
-mvn clean package -Dquarkus.container-image.build=true
-```
-## Run
-
-## Without Docker
 
 ```bash
 java -jar target/simeone-example-runner.jar
 ```
 
-## With Docker
+### Docker container
+
+```bash
+./mvnw clean package -Dquarkus.container-image.build=true
+```
 
 ```bash
 docker run -it --rm -p 8080:8080 -p 1527:1527 test/simone-example
@@ -118,9 +119,8 @@ URL: `jdbc:derby://localhost:1527/memory:feed;create=false`
 
 ## Swagger
 
-The openapi documentation is available at <http://localhost:8080/openapi>
+When you run the application in Development mode the Swagger documentation is available at: <http://localhost:8080/swagger-ui>
 
-See [Docker Compose](#docker-compose) for how to view the Swagger documentation.
 
 ## Tips
 
@@ -151,16 +151,6 @@ You can remote debug the application in the running container by hooking up jdb 
 jdb -attach 8787
 ```
 
-# Docker Compose
-
-The example includes a Docker Compose file that starts the example app along with a Swagger server.
-
-```bash
-docker-compose up
-```
-
-Checkout the Swagger documentation at <http://localhost:8090>
-
 # Microprofile Healt
 
 ```bash
@@ -174,9 +164,6 @@ Get number of orders
 ```bash
 curl http://localhost:8080/metrics/application
 ```
-
-
-
 
 # Known problems
 
