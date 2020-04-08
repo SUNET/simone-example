@@ -4,9 +4,9 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.time.Instant;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBContext;
@@ -18,10 +18,10 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.uhr.simone.core.control.SimoneConfiguration;
 import se.uhr.simone.example.api.Link;
 import se.uhr.simone.example.api.OrderEventRepresentation;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.SimoneProperties;
 import se.uhr.simone.extension.api.feed.AtomCategory;
 import se.uhr.simone.extension.api.feed.AtomCategory.Label;
 import se.uhr.simone.extension.api.feed.AtomCategory.Term;
@@ -31,20 +31,28 @@ import se.uhr.simone.extension.api.feed.FeedPublisher;
 import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
+@Dependent
 public class OrderController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 
 	@Inject
-	private OrderRepository orderRepository;
+	SimoneConfiguration config;
 
 	@Inject
-	private FeedPublisher feedPublisher;
+	OrderRepository orderRepository;
+
+	@Inject
+	FeedPublisher feedPublisher;
 
 	@Counted(name = "order.placed.count", absolute = true)
 	@Timed(name = "order.placed.count.time", absolute = true)
-	@Transactional(value = TxType.REQUIRES_NEW)
+	@Transactional
 	public OrderRepresentation create(String description) {
+
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog("init");
+		log.info("init");
+
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
 		OrderRepresentation order =
@@ -52,7 +60,7 @@ public class OrderController {
 
 		orderRepository.put(orderId, order);
 
-		URI uri = UriBuilder.fromUri(SimoneProperties.getBaseRestURI()).segment("order").segment(orderId.toString()).build();
+		URI uri = UriBuilder.fromUri(config.getBaseRestURI()).segment("order").segment(orderId.toString()).build();
 
 		Link link = Link.builder().withRel("order").withHref(uri.toString()).withType(MediaType.APPLICATION_JSON).build();
 		OrderEventRepresentation event = OrderEventRepresentation.builder().withId(orderId.toString()).withLink(link).build();
@@ -76,6 +84,7 @@ public class OrderController {
 		try {
 			JAXBContext context = JAXBContext.newInstance(event.getClass());
 			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 			StringWriter outstr = new StringWriter();
 			m.marshal(event, outstr);
 			return outstr.toString();

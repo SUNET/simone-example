@@ -4,8 +4,7 @@
 
     <groupId>se.uhr.simone</groupId>
     <artifactId>example</artifactId>
-    <version>2.5.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>3.0.0-SNAPSHOT</version>
 
     <name>restbucks</name>
     <url>https://github.com/SUNET/simone-example</url>
@@ -36,23 +35,29 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-        <m2e.cdi.activation>true</m2e.cdi.activation>
-        <docker.tag>latest</docker.tag>
-        <version.thorntail>2.6.0.Final</version.thorntail>
-        <version.org.slf4j>1.7.26</version.org.slf4j>
+
+        <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+        <quarkus.platform.version>1.3.1.Final</quarkus.platform.version>
+        <quarkus-plugin.version>1.3.1.Final</quarkus-plugin.version>
+
         <version.derby>10.15.1.3</version.derby>
-        <version.jupiter>5.5.2</version.jupiter>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom</artifactId>
-                <version>${version.thorntail}</version>
-                <scope>import</scope>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                <version>${quarkus.platform.version}</version>
                 <type>pom</type>
+                <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -64,16 +69,8 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${version.org.slf4j}</version>
         </dependency>
 
-        <!-- SIMONE -->
-
-        <dependency>
-            <groupId>se.uhr.simone</groupId>
-            <artifactId>simone</artifactId>
-            <version>2.5.0</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.derby</groupId>
@@ -105,83 +102,107 @@
             <version>${version.derby}</version>
         </dependency>
 
-        <!-- WILDFLY SWARM FRACTIONS -->
+
+        <!-- SIMONE -->
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>cdi</artifactId>
+            <groupId>se.uhr.simone</groupId>
+            <artifactId>simone</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
+        <!-- required by spring -jdbc -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- QUARKUS -->
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>ejb</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jaxb</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs-jaxb</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-narayana-jta</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs-multipart</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-agroal</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>datasources</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-flyway</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>transactions</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jsonb</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>logging</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-undertow</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-config</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-context-propagation</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-health</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-health</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-metrics</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-metrics</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-openapi</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
 
-        <!-- test -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-container-image-jib</artifactId>
+        </dependency>
+
+        <!-- TEST -->
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${version.jupiter}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${version.jupiter}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.11.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -224,55 +245,16 @@
             </plugin>
 
             <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
-                <version>${version.thorntail}</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${quarkus-plugin.version}</version>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Docker -->
-
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.13</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
                         <goals>
                             <goal>build</goal>
-                            <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <tag>${docker.tag}</tag>
-                    <repository>attiand/simone-example</repository>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Build-Number>${build.number}</Build-Number>
-                            <Build-Time>${maven.build.timestamp}</Build-Time>
-                            <Implementation-SCM-Revision>${scm.revision}</Implementation-SCM-Revision>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
             </plugin>
 
             <plugin>

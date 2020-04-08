@@ -1,6 +1,6 @@
 # SimOne-example
 
-Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a war that depends on the SimOne core jar. The war is built in a Jboss Wildfly Swarm server that runs in a Docker container.
+Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a Quarkus server that depends on the SimOne core jar.
 
 [OrderResource.java](src/main/java/se/uhr/simone/restbucks/boundary/OrderResource.java): Implements A JAX-RS REST API to simulate. In the example it is possible to create and view a Coffee order.
 
@@ -15,26 +15,32 @@ git clone https://github.com/SUNET/simone-example.git
 cd simone-example
 ```
 
-## Build
-Builds the Wildfly Swarm uber jar and Docker container.
-
-```bash
-mvn package
-```
 ## Run
 
-## Without Docker
+### Development mode
 
-```bash
-java -jar target/simeone-example-swarm.jar
+```
+./mvnw quarkus:dev
 ```
 
-## With Docker
+### Java application
 
-Run the example on port 8080
+```
+./mvnw clean package
+```
 
 ```bash
-docker run -it --rm -p 8080:8080 simone-example
+java -jar target/simeone-example-runner.jar
+```
+
+### Docker container
+
+```bash
+./mvnw clean package -Dquarkus.container-image.build=true
+```
+
+```bash
+docker run -it --rm -p 8080:8080 -p 1527:1527 test/simone-example
 ```
 
 ## Try it out
@@ -63,8 +69,6 @@ curl 'http://localhost:8080/feed/recent'
 curl -X DELETE 'http://localhost:8080/admin/database'
 ```
 
-See <http://localhost:8080/doc/#/database_admin> for more information about manipulating the database.
-
 ### Send custom Feed event
 
 Sends a custom Feed event (possible erroneous) for test purposes
@@ -72,8 +76,6 @@ Sends a custom Feed event (possible erroneous) for test purposes
 ```bash
 curl -X POST --header 'Content-Type: application/json' -d '{"contentType": "application/xml","content": "<message>hello</message>"}' 'http://localhost:8080/admin/feed/event'
 ```
-
-See <http://localhost:8080/doc/#/feed_admin> for more information about manipulating the feed.
 
 ### Make SimOne answer with a different HTTP status code
 
@@ -83,7 +85,7 @@ For every REST request respond with status code 201.
 curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost:8080/admin/rs/response/code/global'
 ```
 
-See <http://localhost:8080/doc/#/rest_admin> for more information about manipulating the REST-API.
+See [Swagger](#Swagger) for more information about the admin API.
 
 ## Batch load
 
@@ -105,25 +107,18 @@ The dropin directory must be mounted when when the cointainer is started, first 
 cp etc/orders.txt /tmp/mydropindir/
 ```
 
-## Inspect the database
+## Inspect the feed database
 
-Add `-p 1527:1527` to the docker run command. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver.
+Expose port 1527 from the docker container. Use a SQL CLient with the `org.apache.derby.jdbc.ClientDriver` driver.
 
-### Feed database
-
-URL: `jdbc:derby://localhost:1527/feed`
+URL: `jdbc:derby://localhost:1527/memory:feed;create=false`
 
 ## Swagger
 
-The openapi documentation is available at <http://localhost:8080/openapi>
+When you run the application in Development mode the Swagger documentation is available at: <http://localhost:8080/swagger-ui>
 
-See [Docker Compose](#docker-compose) for how to view the Swagger documentation.
 
 ## Tips
-
-### Re-use loaded database
-
-You may mount the database directory `/var/simone/db` if you save the simulator data between re-starts. First create a directory on you host `/tmp/mydbdir` then add `-v /tmp/mydbdir:/var/simone/db` to the docker run command.
 
 ### Base URI
 
@@ -134,13 +129,6 @@ If you change the port or SimOne is installed behind a firewall you must change 
 
 ## Files
 
-### Logfiles
-
-Logfiles written to stdout.
-
-### Database
-
-All database files are stored under `/var/simone/db`
 
 ### Dropin
 
@@ -156,20 +144,19 @@ You can remote debug the application in the running container by hooking up jdb 
 jdb -attach 8787
 ```
 
-# Docker Compose
-
-The example includes a Docker Compose file that starts the example app along with a Swagger server.
+# Microprofile Health
 
 ```bash
-docker-compose up
+curl http://localhost:8080/health
 ```
 
-Checkout the Swagger documentation at <http://localhost:8090>
+# Microprofile Metrics
 
-# Microprofile
+Get number of orders
 
-Rudimentary support for Microprofile [Health](http://localhost:8080/health) and [Metrics](http://localhost:8080/metrics).
-
+```bash
+curl http://localhost:8080/metrics/application
+```
 
 # Known problems
 
@@ -177,7 +164,5 @@ Rudimentary support for Microprofile [Health](http://localhost:8080/health) and 
 
 ## Prerequisites
 
-* Git
-* JDK 1.8
-* Maven 3
-* Docker
+* JDK 11
+

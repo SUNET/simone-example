@@ -3,9 +3,6 @@ package se.uhr.simone.restbucks.boundary.application;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Path;
@@ -22,28 +19,23 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import se.uhr.simone.restbucks.control.application.ApplicationManifest;
 
 @Tag(name = "application")
-@Stateless
 @Path("/application")
 @Produces({ MediaType.APPLICATION_JSON })
 public class ApplicationResource {
 
-	@Inject
-	private ServletContext context;
-
 	@Operation(summary = "Information about the application")
 	@APIResponse(description = "Version information", content = @Content(schema = @Schema(implementation = VersionRepresentation.class)))
 	@GET
-	@Path("version")
+	@Path("/version")
 	public Response version() {
 
-		InputStream manifestStream = context.getResourceAsStream("/META-INF/MANIFEST.MF");
+		InputStream manifestStream = ApplicationResource.class.getResourceAsStream("/META-INF/MANIFEST.MF");
 
 		try {
 
 			ApplicationManifest manifest = new ApplicationManifest(manifestStream);
 
-			VersionRepresentation version = VersionRepresentation.of(manifest.getImplementationVersion(),
-					manifest.getImplementationSCMVersion(), BuildRepresentation.of(manifest.getBuildNumber(), manifest.getBuildTime()));
+			VersionRepresentation version = VersionRepresentation.of(manifest.getImplementationVersion());
 			return Response.ok(version).build();
 
 		} catch (IOException e) {

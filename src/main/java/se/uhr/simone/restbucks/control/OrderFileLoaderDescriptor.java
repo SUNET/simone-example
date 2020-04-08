@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import se.uhr.simone.example.api.OrderRepresentation;
@@ -12,11 +13,12 @@ import se.uhr.simone.extension.api.fileloader.ExtensionContext;
 import se.uhr.simone.extension.api.fileloader.FileLoader;
 import se.uhr.simone.extension.api.fileloader.FileLoaderDescriptor;
 
+@Dependent
 public class OrderFileLoaderDescriptor implements FileLoaderDescriptor {
 
 	@Inject
-	private OrderController orderController;
-	
+	OrderController orderController;
+
 	@Override
 	public boolean accept(String filename) {
 		return filename.endsWith(".txt");
