@@ -69,8 +69,6 @@ curl 'http://localhost:8080/feed/recent'
 curl -X DELETE 'http://localhost:8080/admin/database'
 ```
 
-See <http://localhost:8080/doc/#/database_admin> for more information about manipulating the database.
-
 ### Send custom Feed event
 
 Sends a custom Feed event (possible erroneous) for test purposes
@@ -78,8 +76,6 @@ Sends a custom Feed event (possible erroneous) for test purposes
 ```bash
 curl -X POST --header 'Content-Type: application/json' -d '{"contentType": "application/xml","content": "<message>hello</message>"}' 'http://localhost:8080/admin/feed/event'
 ```
-
-See <http://localhost:8080/doc/#/feed_admin> for more information about manipulating the feed.
 
 ### Make SimOne answer with a different HTTP status code
 
@@ -89,7 +85,7 @@ For every REST request respond with status code 201.
 curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost:8080/admin/rs/response/code/global'
 ```
 
-See <http://localhost:8080/doc/#/rest_admin> for more information about manipulating the REST-API.
+See [Swagger](#Swagger) for more information about the admin API.
 
 ## Batch load
 
@@ -133,9 +129,6 @@ If you change the port or SimOne is installed behind a firewall you must change 
 
 ## Files
 
-### Logfiles
-
-Logfiles written to stdout.
 
 ### Dropin
 
@@ -151,7 +144,7 @@ You can remote debug the application in the running container by hooking up jdb 
 jdb -attach 8787
 ```
 
-# Microprofile Healt
+# Microprofile Health
 
 ```bash
 curl http://localhost:8080/health
