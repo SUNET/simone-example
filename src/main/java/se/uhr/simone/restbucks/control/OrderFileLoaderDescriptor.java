@@ -7,11 +7,11 @@ import java.io.Reader;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import se.uhr.simone.api.feed.UniqueIdentifier;
+import se.uhr.simone.api.fileloader.ExtensionContext;
+import se.uhr.simone.api.fileloader.FileLoader;
+import se.uhr.simone.api.fileloader.FileLoaderDescriptor;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.feed.UniqueIdentifier;
-import se.uhr.simone.extension.api.fileloader.ExtensionContext;
-import se.uhr.simone.extension.api.fileloader.FileLoader;
-import se.uhr.simone.extension.api.fileloader.FileLoaderDescriptor;
 
 @Dependent
 public class OrderFileLoaderDescriptor implements FileLoaderDescriptor {

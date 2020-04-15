@@ -13,9 +13,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 
+import se.uhr.simone.api.entity.DatabaseAdmin;
+import se.uhr.simone.api.feed.UniqueIdentifier;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.entity.DatabaseAdmin;
-import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 
 @ApplicationScoped
 public class OrderRepositoryMap implements DatabaseAdmin, OrderRepository {

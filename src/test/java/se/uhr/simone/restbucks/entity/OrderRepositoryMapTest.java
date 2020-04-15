@@ -7,8 +7,8 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 
+import se.uhr.simone.api.feed.UniqueIdentifier;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 
 public class OrderRepositoryMapTest {
 

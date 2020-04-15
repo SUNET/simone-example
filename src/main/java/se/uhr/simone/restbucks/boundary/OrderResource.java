@@ -21,9 +21,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import se.uhr.simone.api.feed.UniqueIdentifier;
 import se.uhr.simone.core.control.SimoneConfiguration;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.control.OrderController;
 
 @Tag(name = "order")

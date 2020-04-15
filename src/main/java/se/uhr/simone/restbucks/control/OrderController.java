@@ -18,17 +18,17 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.uhr.simone.api.feed.AtomCategory;
+import se.uhr.simone.api.feed.AtomCategory.Label;
+import se.uhr.simone.api.feed.AtomCategory.Term;
+import se.uhr.simone.api.feed.AtomEntry;
+import se.uhr.simone.api.feed.Content;
+import se.uhr.simone.api.feed.FeedPublisher;
+import se.uhr.simone.api.feed.UniqueIdentifier;
 import se.uhr.simone.core.control.SimoneConfiguration;
 import se.uhr.simone.example.api.Link;
 import se.uhr.simone.example.api.OrderEventRepresentation;
 import se.uhr.simone.example.api.OrderRepresentation;
-import se.uhr.simone.extension.api.feed.AtomCategory;
-import se.uhr.simone.extension.api.feed.AtomCategory.Label;
-import se.uhr.simone.extension.api.feed.AtomCategory.Term;
-import se.uhr.simone.extension.api.feed.AtomEntry;
-import se.uhr.simone.extension.api.feed.Content;
-import se.uhr.simone.extension.api.feed.FeedPublisher;
-import se.uhr.simone.extension.api.feed.UniqueIdentifier;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
 @Dependent
