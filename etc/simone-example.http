@@ -1,0 +1,34 @@
+# For use with vscode rest client
+@host = http://localhost:8080
+
+### Feed
+GET {{host}}/feed/recent
+
+### List orders
+GET {{host}}/order
+
+### Add order
+POST {{host}}/order
+
+Coffee
+
+### Load DB from orders.txt
+
+POST {{host}}/admin/database
+Content-Type: multipart/form-data; boundary=----boundary
+
+------boundary
+Content-Disposition: form-data; name="name"
+
+orders.txt
+------boundary
+Content-Disposition: form-data; name="content"; filename="orders.txt"
+Content-Type: text/plain; charset=utf-8
+
+< ./orders.txt
+------boundary--
+
+
+### Drop DB
+
+DELETE {{host}}/admin/database
