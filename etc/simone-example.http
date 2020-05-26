@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="name"
 
 orders.txt
 ------boundary
-Content-Disposition: form-data; name="content"; filename="orders.txt"
+Content-Disposition: form-data; name="content"
 Content-Type: text/plain; charset=utf-8
 
 < ./orders.txt
@@ -32,3 +32,35 @@ Content-Type: text/plain; charset=utf-8
 ### Drop DB
 
 DELETE {{host}}/admin/database
+
+
+### Answer with strange status code
+
+PUT  {{host}}/admin/rs/response/code/global
+Content-Type: text/plain
+
+400
+
+
+### Answer normally
+
+DELETE  {{host}}/admin/rs/response/code/global
+
+
+### Answer with strange status code and body
+
+PUT  {{host}}/admin/rs/response/body
+Content-Type: application/json
+
+{
+    "path": "/order",
+    "code": "400",
+    "body": ""
+}
+
+### Answer with strange status code and body
+
+DELETE  {{host}}/admin/rs/response/body
+Content-Type: text/plain
+
+/order
