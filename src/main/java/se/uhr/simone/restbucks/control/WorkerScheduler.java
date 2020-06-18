@@ -15,7 +15,7 @@ import se.uhr.simone.api.SimoneTimerEvent;
 @ApplicationScoped
 public class WorkerScheduler {
 
-	private final static Logger LOG = LoggerFactory.getLogger(WorkerScheduler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WorkerScheduler.class);
 
 	@Inject
 	private Event<SimoneTimerEvent> simoneTimerEvent;
@@ -23,12 +23,15 @@ public class WorkerScheduler {
 	private final Semaphore semaphore = new Semaphore(1);
 
 	@Scheduled(every = "{simone.worker.schedule.expr}")
-	void onStart() {
+	void scheduled() {
 		if (semaphore.tryAcquire()) {
-			simoneTimerEvent.fire(new SimoneTimerEvent());
-			semaphore.release();
-		} else {
-			LOG.trace("could not acquire permit");
+			try {
+				simoneTimerEvent.fire(new SimoneTimerEvent());
+			} catch (Exception e) {
+				LOG.error("timer event error", e);
+			} finally {
+				semaphore.release();
+			}
 		}
 	}
 }
