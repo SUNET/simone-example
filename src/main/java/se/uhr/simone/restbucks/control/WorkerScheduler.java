@@ -18,7 +18,7 @@ public class WorkerScheduler {
 	private static final Logger LOG = LoggerFactory.getLogger(WorkerScheduler.class);
 
 	@Inject
-	private Event<SimoneTimerEvent> simoneTimerEvent;
+	Event<SimoneTimerEvent> simoneTimerEvent;
 
 	private final Semaphore semaphore = new Semaphore(1);
 
