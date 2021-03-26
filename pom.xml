@@ -4,7 +4,7 @@
 
     <groupId>se.uhr.simone</groupId>
     <artifactId>example</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.2.0-SNAPSHOT</version>
 
     <name>restbucks</name>
     <url>https://github.com/SUNET/simone-example</url>
@@ -38,8 +38,8 @@
 
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-        <quarkus.platform.version>1.10.5.Final</quarkus.platform.version>
-        <quarkus-plugin.version>1.10.5.Final</quarkus-plugin.version>
+        <quarkus.platform.version>1.12.2.Final</quarkus.platform.version>
+        <quarkus-plugin.version>1.12.2.Final</quarkus-plugin.version>
 
         <version.derby>10.15.2.0</version.derby>
     </properties>
@@ -108,7 +108,7 @@
         <dependency>
             <groupId>se.uhr.simone</groupId>
             <artifactId>simone</artifactId>
-            <version>3.1.2</version>
+            <version>3.2.0</version>
         </dependency>
 
 
