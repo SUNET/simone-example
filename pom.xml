@@ -4,7 +4,7 @@
 
     <groupId>se.uhr.simone</groupId>
     <artifactId>example</artifactId>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.3.0-SNAPSHOT</version>
 
     <name>restbucks</name>
     <url>https://github.com/SUNET/simone-example</url>
@@ -38,8 +38,8 @@
 
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-        <quarkus.platform.version>1.13.6.Final</quarkus.platform.version>
-        <quarkus-plugin.version>1.13.6.Final</quarkus-plugin.version>
+        <quarkus.platform.version>2.0.1.Final</quarkus.platform.version>
+        <quarkus-plugin.version>2.0.1.Final</quarkus-plugin.version>
 
         <version.derby>10.15.2.0</version.derby>
     </properties>
@@ -71,7 +71,6 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
@@ -102,15 +101,13 @@
             <version>${version.derby}</version>
         </dependency>
 
-
         <!-- SIMONE -->
 
         <dependency>
             <groupId>se.uhr.simone</groupId>
             <artifactId>simone</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.0</version>
         </dependency>
-
 
         <!-- required by spring -jdbc -->
         <dependency>
@@ -234,7 +231,7 @@
 
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb22-plugin</artifactId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
                 <version>0.14.0</version>
                 <executions>
                     <execution>
