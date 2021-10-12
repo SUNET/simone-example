@@ -36,7 +36,7 @@ DELETE {{host}}/admin/database
 
 ### Answer with strange status code
 
-PUT  {{host}}/admin/rs/response/code/global
+PUT {{host}}/admin/rs/response/code/global
 Content-Type: text/plain
 
 400
@@ -44,23 +44,32 @@ Content-Type: text/plain
 
 ### Answer normally
 
-DELETE  {{host}}/admin/rs/response/code/global
+DELETE {{host}}/admin/rs/response/code/global
 
 
 ### Answer with strange status code and body
 
-PUT  {{host}}/admin/rs/response/body
+PUT {{host}}/admin/rs/response/body
 Content-Type: application/json
 
 {
     "path": "/order",
-    "code": "400",
+    "code": "401",
     "body": ""
 }
 
 ### Answer with strange status code and body
 
-DELETE  {{host}}/admin/rs/response/body
+DELETE {{host}}/admin/rs/response/body
 Content-Type: text/plain
 
 /order
+
+
+### Block feed
+
+PUT {{host}}/admin/feed/block
+
+### un-block feed
+
+DELETE {{host}}/admin/feed/block
