@@ -73,3 +73,9 @@ PUT {{host}}/admin/feed/block
 ### un-block feed
 
 DELETE {{host}}/admin/feed/block
+
+
+### Admin
+
+#### Application version
+GET {{host}}/application/version
