@@ -106,7 +106,7 @@
         <dependency>
             <groupId>se.uhr.simone</groupId>
             <artifactId>simone</artifactId>
-            <version>3.3.3</version>
+            <version>3.3.4</version>
         </dependency>
 
         <!-- required by spring -jdbc -->
