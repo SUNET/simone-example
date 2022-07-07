@@ -41,7 +41,7 @@
         <quarkus.platform.version>2.6.2.Final</quarkus.platform.version>
         <quarkus-plugin.version>2.6.2.Final</quarkus-plugin.version>
 
-        <version.derby>10.15.2.0</version.derby>
+        <version.derby>10.16.1.1</version.derby>
     </properties>
 
     <dependencyManagement>
