@@ -2,8 +2,8 @@ package se.uhr.simone.restbucks.entity;
 
 import java.util.List;
 
-import se.uhr.simone.api.feed.UniqueIdentifier;
-import se.uhr.simone.example.api.OrderRepresentation;
+import se.uhr.simone.core.feed.control.UniqueIdentifier;
+import se.uhr.simone.restbucks.boundary.representation.OrderRepresentation;
 
 public interface OrderRepository {
 

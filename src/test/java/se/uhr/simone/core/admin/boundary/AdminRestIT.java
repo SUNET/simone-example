@@ -9,13 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import se.uhr.simone.admin.rs.ResponseBodyRepresentation;
-import se.uhr.simone.admin.rs.ResponseRepresentation;
+import se.uhr.simone.common.rs.ResponseBodyRepresentation;
+import se.uhr.simone.common.rs.ResponseRepresentation;
 
 @QuarkusTest
-public class AdminRestIT {
-
-	RSResource resource;
+class AdminRestIT {
 
 	@Test
 	void shouldChangeGlobalResponceStatusCode() throws Exception {

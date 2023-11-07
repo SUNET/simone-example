@@ -6,6 +6,9 @@ derby.log
 
 release.properties
 
+.idea/
+**.iml
+
 # database
 /feed/
 /restbucks/

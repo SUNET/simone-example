@@ -1,28 +1,28 @@
 # For use with vscode rest client
 @host = http://localhost:8080
 
+
 ### Feed
 GET {{host}}/feed/recent
+
 
 ### List orders
 GET {{host}}/order
 
 ### Add order
 POST {{host}}/order
+Content-Type: text/plain
 
 Coffee
 
 ### Load DB from orders.txt
 
-POST {{host}}/admin/database
+POST {{host}}/order/file
 Content-Type: multipart/form-data; boundary=----boundary
-
-------boundary
-Content-Disposition: form-data; name="name"
 
 orders.txt
 ------boundary
-Content-Disposition: form-data; name="content"
+Content-Disposition: form-data; name="file"
 Content-Type: text/plain; charset=utf-8
 
 < ./orders.txt
@@ -34,7 +34,29 @@ Content-Type: text/plain; charset=utf-8
 DELETE {{host}}/admin/database
 
 
-### Answer with strange status code
+### Block feed
+
+PUT {{host}}/admin/feed/block
+
+### un-block feed
+
+DELETE {{host}}/admin/feed/block
+
+
+### Answer with strange status code on feed calls
+
+PUT {{host}}/admin/feed/response/code/
+Content-Type: text/plain
+
+400
+
+
+### Answer normally
+
+DELETE {{host}}/admin/rs/response/code/global
+
+
+### Answer with strange status code on rest calls
 
 PUT {{host}}/admin/rs/response/code/global
 Content-Type: text/plain
@@ -66,16 +88,19 @@ Content-Type: text/plain
 /order
 
 
-### Block feed
-
-PUT {{host}}/admin/feed/block
-
-### un-block feed
-
-DELETE {{host}}/admin/feed/block
-
-
-### Admin
+### Application
 
 #### Application version
 GET {{host}}/application/version
+
+
+#### Metrics
+{{host}}/q/metrics
+
+
+#### Health
+
+{{host}}/q/health
+
+#### OpenAPI
+GET {{host}}/q/openapi

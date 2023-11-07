@@ -7,10 +7,10 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 
-import se.uhr.simone.api.feed.UniqueIdentifier;
-import se.uhr.simone.example.api.OrderRepresentation;
+import se.uhr.simone.core.feed.control.UniqueIdentifier;
+import se.uhr.simone.restbucks.boundary.representation.OrderRepresentation;
 
-public class OrderRepositoryMapTest {
+class OrderRepositoryMapTest {
 
 	private static final Instant EPOC = Instant.ofEpochSecond(0);
 
@@ -19,14 +19,14 @@ public class OrderRepositoryMapTest {
 	private static final OrderRepresentation ORDER = create(ORDER_ID);
 
 	@Test
-	public void shouldPutAndGet() {
+	void shouldPutAndGet() {
 		OrderRepositoryMap cut = new OrderRepositoryMap(10);
 		cut.put(ORDER_ID, ORDER);
-		assertThat(cut.get(ORDER_ID).getTime()).isEqualTo(EPOC);
+		assertThat(cut.get(ORDER_ID).time).isEqualTo(EPOC);
 	}
 
 	@Test
-	public void shouldReturnAll() {
+	void shouldReturnAll() {
 		OrderRepositoryMap cut = new OrderRepositoryMap(10);
 
 		UniqueIdentifier id1 = UniqueIdentifier.randomUniqueIdentifier();
@@ -39,7 +39,7 @@ public class OrderRepositoryMapTest {
 	}
 
 	@Test
-	public void shoulDrop() {
+	void shouldDrop() {
 		OrderRepositoryMap cut = new OrderRepositoryMap(10);
 
 		UniqueIdentifier id1 = UniqueIdentifier.randomUniqueIdentifier();
@@ -54,7 +54,7 @@ public class OrderRepositoryMapTest {
 	}
 
 	@Test
-	public void shouldThrowOnMaxCapacity() {
+	void shouldThrowOnMaxCapacity() {
 		OrderRepositoryMap cut = new OrderRepositoryMap(2);
 
 		UniqueIdentifier id1 = UniqueIdentifier.randomUniqueIdentifier();
@@ -69,7 +69,6 @@ public class OrderRepositoryMapTest {
 	}
 
 	static OrderRepresentation create(UniqueIdentifier id) {
-		return OrderRepresentation.builder().withId(ORDER_ID.toString()).withDescription("desc").withTime(EPOC).build();
+		return new OrderRepresentation(ORDER_ID.toString(), "desc", EPOC);
 	}
-
 }

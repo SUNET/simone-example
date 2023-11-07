@@ -1,18 +1,21 @@
 package se.uhr.simone.restbucks.boundary;
 
+import java.io.InputStream;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -21,28 +24,42 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import se.uhr.simone.api.feed.UniqueIdentifier;
-import se.uhr.simone.core.control.SimoneConfiguration;
-import se.uhr.simone.example.api.OrderRepresentation;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
+import se.uhr.simone.core.feed.control.UniqueIdentifier;
+import se.uhr.simone.core.SimOne;
+import se.uhr.simone.core.boundary.Managed;
+import se.uhr.simone.restbucks.boundary.representation.OrderRepresentation;
+import se.uhr.simone.restbucks.control.OrderFileLoader;
+import se.uhr.simone.restbucks.control.RestBucksProperties;
 import se.uhr.simone.restbucks.control.OrderController;
 
+
 @Tag(name = "order")
+@Managed("restbucks")
 @Path("/order")
-@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON })
 public class OrderResource {
 
 	@Inject
-	SimoneConfiguration config;
+	SimOne simOne;
+
+	@Inject
+	RestBucksProperties config;
 
 	@Inject
 	OrderController controller;
 
+	@Inject
+	OrderFileLoader orderFileLoader;
+
 	@Operation(summary = "Create order")
 	@APIResponse(responseCode = "201", description = "The order is created")
+	@Consumes(MediaType.TEXT_PLAIN)
 	@POST
 	public Response create(String description) {
 		OrderRepresentation order = controller.create(description);
-		return Response.created(UriBuilder.fromUri(config.getBaseRestURI()).segment("order", order.getId()).build()).build();
+		return Response.created(UriBuilder.fromUri(config.baseURI).segment("order", order.id).build()).build();
 	}
 
 	@Operation(summary = "Get all orders")
@@ -68,4 +85,20 @@ public class OrderResource {
 		return order != null ? Response.ok(order).build() : Response.status(Status.NOT_FOUND).build();
 	}
 
+	public static class MultipartBody {
+		@FormParam("file")
+		@PartType(MediaType.APPLICATION_OCTET_STREAM)
+		public InputStream file;
+	}
+
+	@Operation(summary = "Create orders from file")
+	@APIResponse(responseCode = "200", description = "On success")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@POST
+	@Path("/file")
+	public Response loadFromFile(@MultipartForm MultipartBody data) {
+		var result = orderFileLoader.load(data.file);
+
+		return Response.status(result == OrderFileLoader.Result.SUCCESS ? Status.OK : Status.BAD_REQUEST).build();
+	}
 }

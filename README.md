@@ -1,6 +1,6 @@
 # SimOne-example
 
-Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example generates its API from [xsd](src/main/resources/order.xsd), creates a Quarkus server that depends on the SimOne core jar.
+Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example creates a Quarkus server that depends on the SimOne core jar.
 
 [OrderResource.java](src/main/java/se/uhr/simone/restbucks/boundary/OrderResource.java): Implements A JAX-RS REST API to simulate. In the example it is possible to create and view a Coffee order.
 
@@ -8,12 +8,6 @@ Simple example of how to build a simulator based on [SimOne](https://github.com/
 
 [OrderRepository.java](src/main/java/se/uhr/simone/restbucks/entity/OrderRepository.java): Stores the order for later retrieval.
 
-## Clone
-
-```bash
-git clone https://github.com/SUNET/simone-example.git
-cd simone-example
-```
 
 ## Run
 
@@ -85,7 +79,7 @@ For every REST request respond with status code 201.
 curl -X PUT --header 'Content-Type: application/json' -d '201' 'http://localhost:8080/admin/rs/response/code/global'
 ```
 
-See [Swagger](#Swagger) for more information about the admin API.
+See [OpenAPI](#OpenAPI) for more information about the admin API.
 
 ## Batch load
 
@@ -96,16 +90,10 @@ There are two options to load SimOne with a batch of orders.
 Load SimOne with information from `etc/orders.txt`
 
 ```bash
-curl -X POST --header 'Content-Type: multipart/form-data' -F name=orders.txt -F 'content=@etc/orders.txt' 'http://localhost:8080/admin/database'
+curl -X POST --header 'Content-Type: multipart/form-data' -F 'file=@etc/orders.txt' 'http://localhost:8080/order/file'
 ```
 
-### Dropin directory
-
-The dropin directory must be mounted when when the cointainer is started, first create a directory on you host `/tmp/mydropindir` then add `-v /tmp/mydropindir:/var/simone/dropin` to the docker run command.
-
-```bash
-cp etc/orders.txt /tmp/mydropindir/
-```
+See [simone-example.http](etc/simone-example.http) for more examples.
 
 ## Inspect the feed database
 
@@ -113,26 +101,12 @@ Expose port 1527 from the docker container. Use a SQL CLient with the `org.apach
 
 URL: `jdbc:derby://localhost:1527/memory:feed;create=false`
 
-## Swagger
+## OpenAPI
 
-When you run the application in Development mode the Swagger documentation is available at: <http://localhost:8080/swagger-ui>
+When you run the application the OpenAPI documentation is available at: <http://localhost:8080/q/openapi>
 
 
 ## Tips
-
-### Base URI
-
-If you change the port or SimOne is installed behind a firewall you must change the base URI used in the published feed. You can do that by adding the following to the run command.
-```bash
--e "SIMONE_BASE_URI=http://my.uri.se"
-```
-
-## Files
-
-
-### Dropin
-
-`dropin` is a special directory that is monitored by SimOne. When a new file is discovered extensions are notified and may handle the file in any way they want. The dropin directory location is `/var/simone/dropin`
 
 ## Debug
 
@@ -147,7 +121,7 @@ jdb -attach 8787
 # Microprofile Health
 
 ```bash
-curl http://localhost:8080/health
+curl http://localhost:8080/q/health
 ```
 
 # Microprofile Metrics
@@ -155,7 +129,7 @@ curl http://localhost:8080/health
 Get number of orders
 
 ```bash
-curl http://localhost:8080/metrics/application
+curl http://localhost:8080/q/metrics
 ```
 
 # Known problems
@@ -164,5 +138,5 @@ curl http://localhost:8080/metrics/application
 
 ## Prerequisites
 
-* JDK 11
+* JDK 17
 

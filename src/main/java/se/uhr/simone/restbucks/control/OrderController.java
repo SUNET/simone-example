@@ -4,31 +4,30 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.time.Instant;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.UriBuilder;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import se.uhr.simone.api.feed.AtomCategory;
-import se.uhr.simone.api.feed.AtomCategory.Label;
-import se.uhr.simone.api.feed.AtomCategory.Term;
-import se.uhr.simone.api.feed.AtomEntry;
-import se.uhr.simone.api.feed.Content;
-import se.uhr.simone.api.feed.FeedPublisher;
-import se.uhr.simone.api.feed.UniqueIdentifier;
-import se.uhr.simone.core.control.SimoneConfiguration;
-import se.uhr.simone.example.api.Link;
-import se.uhr.simone.example.api.OrderEventRepresentation;
-import se.uhr.simone.example.api.OrderRepresentation;
+import se.uhr.simone.core.feed.control.AtomCategory;
+import se.uhr.simone.core.feed.control.AtomCategory.Label;
+import se.uhr.simone.core.feed.control.AtomCategory.Term;
+import se.uhr.simone.core.feed.control.AtomEntry;
+import se.uhr.simone.core.feed.control.Content;
+import se.uhr.simone.core.feed.control.UniqueIdentifier;
+import se.uhr.simone.core.SimOne;
+import se.uhr.simone.restbucks.boundary.representation.Link;
+import se.uhr.simone.restbucks.boundary.representation.OrderEventRepresentation;
+import se.uhr.simone.restbucks.boundary.representation.OrderRepresentation;
 import se.uhr.simone.restbucks.entity.OrderRepository;
 
 @Dependent
@@ -37,33 +36,29 @@ public class OrderController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 
 	@Inject
-	SimoneConfiguration config;
+	RestBucksProperties properties;
 
 	@Inject
 	OrderRepository orderRepository;
 
 	@Inject
-	FeedPublisher feedPublisher;
+	SimOne simOne;
 
 	@Counted(name = "order.placed.count", absolute = true)
 	@Timed(name = "order.placed.count.time", absolute = true)
 	@Transactional
 	public OrderRepresentation create(String description) {
-
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog("init");
-		log.info("init");
-
 		UniqueIdentifier orderId = UniqueIdentifier.randomUniqueIdentifier();
 
 		OrderRepresentation order =
-				OrderRepresentation.builder().withId(orderId.toString()).withDescription(description).withTime(Instant.now()).build();
+				new OrderRepresentation(orderId.toString(), description, Instant.now());
 
 		orderRepository.put(orderId, order);
 
-		URI uri = UriBuilder.fromUri(config.getBaseRestURI()).segment("order").segment(orderId.toString()).build();
+		URI uri = UriBuilder.fromUri(properties.baseURI).segment("order").segment(orderId.toString()).build();
 
-		Link link = Link.builder().withRel("order").withHref(uri.toString()).withType(MediaType.APPLICATION_JSON).build();
-		OrderEventRepresentation event = OrderEventRepresentation.builder().withId(orderId.toString()).withLink(link).build();
+		Link link = new Link("order", uri.toString(), MediaType.APPLICATION_JSON);
+		OrderEventRepresentation event = new OrderEventRepresentation(orderId.toString(), link);
 
 		publishFeedEntry(orderId, convertToXml(event));
 
@@ -101,6 +96,6 @@ public class OrderController {
 				.withCategory(AtomCategory.builder().withTerm(Term.of("myterm")).withLabel(Label.of("mylabel")).build())
 				.build();
 
-		feedPublisher.publish(entry);
+		simOne.publish(entry);
 	}
 }

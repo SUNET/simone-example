@@ -6,19 +6,18 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 
-import se.uhr.simone.api.entity.DatabaseAdmin;
-import se.uhr.simone.api.feed.UniqueIdentifier;
-import se.uhr.simone.example.api.OrderRepresentation;
+import se.uhr.simone.core.feed.control.UniqueIdentifier;
+import se.uhr.simone.restbucks.boundary.representation.OrderRepresentation;
 
 @ApplicationScoped
-public class OrderRepositoryMap implements DatabaseAdmin, OrderRepository {
+public class OrderRepositoryMap implements OrderRepository {
 
 	private final ConcurrentMap<UUID, OrderRepresentation> store = new ConcurrentHashMap<>();
 
@@ -57,7 +56,6 @@ public class OrderRepositoryMap implements DatabaseAdmin, OrderRepository {
 		store.clear();
 	}
 
-	@Override
 	public void dropTables() {
 		store.clear();
 	}
