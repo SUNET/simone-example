@@ -7,19 +7,6 @@
     <version>4.0.1-SNAPSHOT</version>
 
     <name>restbucks</name>
-    <url>https://github.com/SUNET/simone-example</url>
-
-    <scm>
-        <connection>scm:git:git@github.com:SUNET/simone-example.git</connection>
-        <url>https://github.com/SUNET/simone-example</url>
-        <developerConnection>scm:git:git@github.com:SUNET/simone-example.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
-
-    <organization>
-        <name>SUNET</name>
-        <url>http://www.sunet.se/</url>
-    </organization>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -94,7 +81,7 @@
         <dependency>
             <groupId>se.uhr.simone</groupId>
             <artifactId>simone.core</artifactId>
-            <version>4.0.1</version>
+            <version>4.0.2</version>
         </dependency>
 
         <!-- required by spring -jdbc -->
@@ -245,22 +232,13 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <goals>package</goals>
-                    <tagNameFormat>simone-example-@{project.version}</tagNameFormat>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
     <repositories>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/sunet/simone</url>
+            <url>https://maven.pkg.github.com/swedish-council-for-higher-education/simone</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
