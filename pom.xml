@@ -27,7 +27,7 @@
 
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.5.0</quarkus.platform.version>
+        <quarkus.platform.version>3.20.0</quarkus.platform.version>
 
         <version.derby>10.16.1.1</version.derby>
     </properties>
@@ -133,6 +133,11 @@
 
         <dependency>
             <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-flyway-derby</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-jsonb</artifactId>
         </dependency>
 
@@ -157,8 +162,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-multipart-provider</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-multipart</artifactId>
         </dependency>
 
         <dependency>

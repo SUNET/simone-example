@@ -1,6 +1,6 @@
 # SimOne-example
 
-Simple example of how to build a simulator based on [SimOne](https://github.com/SUNET/simone). The example creates a Quarkus server that depends on the SimOne core jar.
+Simple example of how to build a simulator based on [SimOne](https://github.com/swedish-council-for-higher-education/simone). The example creates a Quarkus server that depends on the SimOne core jar.
 
 [OrderResource.java](src/main/java/se/uhr/simone/restbucks/boundary/OrderResource.java): Implements A JAX-RS REST API to simulate. In the example it is possible to create and view a Coffee order.
 
