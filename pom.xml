@@ -4,7 +4,7 @@
 
     <groupId>se.uhr.simone</groupId>
     <artifactId>example</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+    <version>4.1.0-SNAPSHOT</version>
 
     <name>restbucks</name>
 
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>se.uhr.simone</groupId>
             <artifactId>simone.core</artifactId>
-            <version>4.0.2</version>
+            <version>4.1.0</version>
         </dependency>
 
         <!-- required by spring -jdbc -->

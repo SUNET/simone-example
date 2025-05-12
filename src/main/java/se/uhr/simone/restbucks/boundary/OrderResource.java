@@ -11,6 +11,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.EntityPart;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,8 +25,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-import org.jboss.resteasy.annotations.providers.multipart.PartType;
 import se.uhr.simone.core.feed.control.UniqueIdentifier;
 import se.uhr.simone.core.SimOne;
 import se.uhr.simone.core.boundary.Managed;
@@ -85,19 +84,13 @@ public class OrderResource {
 		return order != null ? Response.ok(order).build() : Response.status(Status.NOT_FOUND).build();
 	}
 
-	public static class MultipartBody {
-		@FormParam("file")
-		@PartType(MediaType.APPLICATION_OCTET_STREAM)
-		public InputStream file;
-	}
-
 	@Operation(summary = "Create orders from file")
 	@APIResponse(responseCode = "200", description = "On success")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@POST
 	@Path("/file")
-	public Response loadFromFile(@MultipartForm MultipartBody data) {
-		var result = orderFileLoader.load(data.file);
+	public Response loadFromFile(@FormParam("file") EntityPart file) {
+		var result = orderFileLoader.load(file.getContent());
 
 		return Response.status(result == OrderFileLoader.Result.SUCCESS ? Status.OK : Status.BAD_REQUEST).build();
 	}
